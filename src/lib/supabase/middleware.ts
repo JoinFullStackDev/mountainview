@@ -100,6 +100,19 @@ export async function updateSession(request: NextRequest) {
 
   // Protect admin routes
   if (request.nextUrl.pathname.startsWith("/admin")) {
+    // The OAuth/email-link callback handles its own session exchange and
+    // must be reachable without an existing session. Bail early so we
+    // don't redirect mid-exchange.
+    if (request.nextUrl.pathname.startsWith("/admin/auth/")) {
+      return supabaseResponse;
+    }
+
+    // The "forgot password" page is by definition for users who can't
+    // sign in, so it must be reachable without a session too.
+    if (request.nextUrl.pathname.startsWith("/admin/forgot-password")) {
+      return supabaseResponse;
+    }
+
     // Handle login page with rate limiting
     if (request.nextUrl.pathname === "/admin/login") {
       // If already logged in, redirect to dashboard
@@ -131,6 +144,14 @@ export async function updateSession(request: NextRequest) {
     // Require authentication for all other admin routes
     if (!user) {
       return NextResponse.redirect(new URL("/admin/login", request.url));
+    }
+
+    // /admin/set-password requires a session (the invite/recovery callback
+    // creates one) but intentionally skips the admin/staff role gate so a
+    // freshly invited user can always finish setting their password, even
+    // if the profile-creation trigger glitched.
+    if (request.nextUrl.pathname.startsWith("/admin/set-password")) {
+      return supabaseResponse;
     }
 
     // Check user role from profiles table

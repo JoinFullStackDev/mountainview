@@ -1,6 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { headers } from "next/headers";
 import { z } from "zod";
 import { createAdminClient, createClient } from "@/lib/supabase/server";
 import type { Profile, UserListItem, UserRole } from "@/types/database";
@@ -55,10 +56,33 @@ async function requireAdmin(): Promise<
   };
 }
 
-function getInviteRedirectUrl(): string | undefined {
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
-  if (!siteUrl) return undefined;
-  return `${siteUrl.replace(/\/$/, "")}/admin/login`;
+/**
+ * Build the absolute URL Supabase should redirect to after the invitee
+ * verifies the magic link. Prefers an explicit NEXT_PUBLIC_SITE_URL
+ * (useful when admins invite from a deploy preview but want the link to
+ * land on prod) and falls back to the actual request origin so a single
+ * codebase works for local / staging / production without env juggling.
+ *
+ * NOTE: whichever URL we return MUST be in the Supabase project's
+ * "Redirect URLs" allowlist (Authentication -> URL Configuration),
+ * otherwise Supabase silently falls back to the dashboard Site URL.
+ */
+async function getInviteRedirectUrl(): Promise<string> {
+  const envUrl = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "");
+  const base = envUrl ?? (await getRequestOrigin());
+  return `${base}/admin/auth/callback?next=${encodeURIComponent(
+    "/admin/set-password"
+  )}`;
+}
+
+async function getRequestOrigin(): Promise<string> {
+  const h = await headers();
+  const forwardedHost = h.get("x-forwarded-host");
+  const host = forwardedHost ?? h.get("host") ?? "localhost:3000";
+  const forwardedProto = h.get("x-forwarded-proto");
+  const proto =
+    forwardedProto ?? (host.startsWith("localhost") ? "http" : "https");
+  return `${proto}://${host}`;
 }
 
 // =====================================================
@@ -171,13 +195,14 @@ export async function inviteUser(input: {
 
   const { email, fullName, role } = parsed.data;
   const admin = createAdminClient();
+  const redirectTo = await getInviteRedirectUrl();
 
   const { error } = await admin.auth.admin.inviteUserByEmail(email, {
     data: {
       invited_role: role,
       full_name: fullName,
     },
-    redirectTo: getInviteRedirectUrl(),
+    redirectTo,
   });
 
   if (error) {
@@ -239,12 +264,14 @@ export async function resendInvitation(userId: string): Promise<ActionResult> {
       ? metadata.invited_role
       : "staff";
 
+  const redirectTo = await getInviteRedirectUrl();
+
   const { error } = await admin.auth.admin.inviteUserByEmail(email, {
     data: {
       invited_role: invitedRole,
       full_name: metadata.full_name,
     },
-    redirectTo: getInviteRedirectUrl(),
+    redirectTo,
   });
 
   if (error) {
