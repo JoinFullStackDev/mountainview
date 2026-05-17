@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { SITE_URL } from "@/lib/seo/site";
 import "./globals.css";
 
 const inter = Inter({
@@ -14,7 +15,7 @@ export const metadata: Metadata = {
   },
   description:
     "Your trusted community pharmacy in Bountiful, Utah. Custom compounding, free delivery, pill packaging, immunizations, and personalized care.",
-  metadataBase: new URL("https://mountainviewpharmacy.com"),
+  metadataBase: new URL(SITE_URL),
   openGraph: {
     type: "website",
     locale: "en_US",

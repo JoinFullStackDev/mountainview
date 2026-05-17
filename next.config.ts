@@ -1,5 +1,6 @@
 import type { NextConfig } from "next";
 import path from "path";
+import { wpRedirects } from "./src/lib/seo/wp-redirects";
 
 const nextConfig: NextConfig = {
   // Fix lockfile detection warning by explicitly setting workspace root
@@ -12,6 +13,9 @@ const nextConfig: NextConfig = {
         pathname: "/storage/v1/object/public/**",
       },
     ],
+  },
+  async redirects() {
+    return wpRedirects;
   },
   async headers() {
     return [
