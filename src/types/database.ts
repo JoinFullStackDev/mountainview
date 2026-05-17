@@ -42,6 +42,19 @@ export interface Category {
   created_at: string;
 }
 
+export type UserStatus = "active" | "pending";
+
+export interface UserListItem {
+  id: string;
+  email: string;
+  fullName: string | null;
+  role: UserRole;
+  status: UserStatus;
+  invitedAt: string | null;
+  lastSignInAt: string | null;
+  createdAt: string;
+}
+
 export interface MediaItem {
   id: string;
   file_name: string;

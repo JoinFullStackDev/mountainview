@@ -8,6 +8,7 @@ import {
   FileText,
   Home,
   ImageIcon,
+  Users,
 } from "lucide-react";
 import type { UserRole } from "@/types/database";
 
@@ -24,6 +25,7 @@ const navigation: ReadonlyArray<{
   { name: "Dashboard", href: "/admin/dashboard", icon: LayoutDashboard, roles: ["admin", "staff"] },
   { name: "Posts", href: "/admin/posts", icon: FileText, roles: ["admin", "staff"] },
   { name: "Media", href: "/admin/media", icon: ImageIcon, roles: ["admin", "staff"] },
+  { name: "Users", href: "/admin/users", icon: Users, roles: ["admin"] },
 ];
 
 export function AdminSidebar({ userRole }: AdminSidebarProps) {

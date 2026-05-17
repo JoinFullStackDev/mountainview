@@ -145,6 +145,16 @@ export async function updateSession(request: NextRequest) {
     if (!profile || !allowedRoles.includes(profile.role)) {
       return NextResponse.redirect(new URL("/", request.url));
     }
+
+    // /admin/users is restricted to admins. Staff get bounced to the
+    // dashboard rather than the homepage so they don't fall out of the
+    // admin shell entirely.
+    if (
+      request.nextUrl.pathname.startsWith("/admin/users") &&
+      profile.role !== "admin"
+    ) {
+      return NextResponse.redirect(new URL("/admin/dashboard", request.url));
+    }
   }
 
   return supabaseResponse;
