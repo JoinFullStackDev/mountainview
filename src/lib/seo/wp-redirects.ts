@@ -34,5 +34,51 @@ export interface WpRedirect {
 }
 
 export const wpRedirects: WpRedirect[] = [
-  // Add WordPress -> Next.js redirects here.
+  // Marketing / info pages renamed on the new site.
+  { source: "/about-mtv", destination: "/about", permanent: true },
+  { source: "/contact-us", destination: "/contact", permanent: true },
+  {
+    source: "/notice-of-privacy-rights-hipaa",
+    destination: "/privacy",
+    permanent: true,
+  },
+
+  // Service / patient pages reorganized under cleaner URLs.
+  {
+    source: "/transfer-prescriptions",
+    destination: "/patients/transfer-prescriptions",
+    permanent: true,
+  },
+
+  // Legacy sections that no longer exist on the new site.
+  // The provider referral network was removed at the client's request;
+  // /resources was a hub linking to services. Both point at /services so the
+  // crawler still lands on something useful.
+  { source: "/our-providers", destination: "/services", permanent: true },
+  { source: "/resources", destination: "/services", permanent: true },
+  {
+    source: "/why-we-can-compound",
+    destination: "/services/compounding",
+    permanent: true,
+  },
+
+  // Legacy WordPress blog posts (root-level slugs) now live under /blog/.
+  {
+    source: "/continuing-the-wellness-journey-with-glp-1-support",
+    destination: "/blog/continuing-the-wellness-journey-with-glp-1-support",
+    permanent: true,
+  },
+  {
+    source:
+      "/unlock-your-peak-performance-with-personalized-medication-compounding",
+    destination:
+      "/blog/unlock-your-peak-performance-with-personalized-medication-compounding",
+    permanent: true,
+  },
+  {
+    source: "/welcome-to-mountain-view-pharmacy-your-trusted-local-pharmacy",
+    destination:
+      "/blog/welcome-to-mountain-view-pharmacy-your-trusted-local-pharmacy",
+    permanent: true,
+  },
 ];

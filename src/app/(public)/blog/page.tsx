@@ -1,16 +1,27 @@
 import { Metadata } from "next";
 import Link from "next/link";
 import { getPublishedPosts } from "@/lib/supabase/posts";
+import { buildMetadata } from "@/lib/seo/site";
 import { format } from "date-fns";
 import { Calendar, Clock } from "lucide-react";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 60; // Revalidate every 60 seconds
 
-export const metadata: Metadata = {
-  title: "Blog",
-  description: "Health and wellness tips, pharmacy updates, and expert insights from Mountain View Pharmacy.",
-};
+export const metadata: Metadata = buildMetadata({
+  path: "/blog",
+  title: "Pharmacy Health Blog | Mountain View Pharmacy",
+  titleAbsolute: true,
+  description:
+    "Read Mountain View Pharmacy insights on compounding, GLP-1 support, personalized medications, supplements, and local pharmacy care.",
+  keywords: [
+    "pharmacy blog",
+    "compounding blog",
+    "GLP-1 support",
+    "local pharmacy tips",
+    "Mountain View Pharmacy",
+  ],
+});
 
 export default async function BlogPage() {
   const posts = await getPublishedPosts();
