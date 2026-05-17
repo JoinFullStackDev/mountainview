@@ -35,7 +35,6 @@ const navigation = [
       { name: 'Medication Sync', href: '/services/medication-synchronization', column: 'left' },
       { name: 'Immunizations', href: '/services/flu-shots-immunizations', column: 'left' },
       { name: 'Medication Review', href: '/services/comprehensive-medication-review', column: 'left' },
-      { name: "Workers' Comp", href: '/services/workers-compensation', column: 'left' },
       { name: 'Supplements', href: '/services/pharmaceutical-grade-vitamins-supplements', column: 'left' },
     ],
   },
@@ -51,15 +50,6 @@ const navigation = [
     ],
   },
   {
-    name: 'Providers',
-    href: '/providers',
-    children: [
-      { name: 'Compounding Services', href: '/providers/compounding' },
-      { name: 'How to Prescribe', href: '/providers/how-to-prescribe' },
-      { name: 'Quality & Compliance', href: '/providers/quality-compliance' },
-    ],
-  },
-  {
     name: 'Resources',
     href: '/about',
     children: [
@@ -71,7 +61,8 @@ const navigation = [
   },
   {
     name: 'Shop',
-    href: '/shop',
+    href: 'https://mvp-shop-1234.myshopify.com/',
+    external: true,
   },
 ];
 
@@ -142,25 +133,39 @@ export function Header() {
               onMouseEnter={() => item.children && setOpenDropdown(item.name)}
               onMouseLeave={() => setOpenDropdown(null)}
             >
-              <Link
-                href={item.href}
-                className={cn(
-                  "flex items-center gap-1 rounded-md px-3 py-1.5 text-sm font-medium transition-colors",
-                  isActive(item.href)
-                    ? "text-primary"
-                    : "text-muted-foreground hover:text-foreground hover:bg-muted"
-                )}
-              >
-                {item.name}
-                {item.children && (
-                  <motion.div
-                    animate={{ rotate: openDropdown === item.name ? 180 : 0 }}
-                    transition={{ duration: 0.2 }}
-                  >
-                    <ChevronDown className="h-3 w-3" />
-                  </motion.div>
-                )}
-              </Link>
+              {item.external ? (
+                <a
+                  href={item.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={cn(
+                    "flex items-center gap-1 rounded-md px-3 py-1.5 text-sm font-medium transition-colors",
+                    "text-muted-foreground hover:text-foreground hover:bg-muted"
+                  )}
+                >
+                  {item.name}
+                </a>
+              ) : (
+                <Link
+                  href={item.href}
+                  className={cn(
+                    "flex items-center gap-1 rounded-md px-3 py-1.5 text-sm font-medium transition-colors",
+                    isActive(item.href)
+                      ? "text-primary"
+                      : "text-muted-foreground hover:text-foreground hover:bg-muted"
+                  )}
+                >
+                  {item.name}
+                  {item.children && (
+                    <motion.div
+                      animate={{ rotate: openDropdown === item.name ? 180 : 0 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      <ChevronDown className="h-3 w-3" />
+                    </motion.div>
+                  )}
+                </Link>
+              )}
 
               {/* Mega Menu for Services */}
               <AnimatePresence>
@@ -363,18 +368,33 @@ export function Header() {
                   </AccordionItem>
                 ) : (
                   <div key={item.name} className="border-b-0">
-                    <Link
-                      href={item.href}
-                      onClick={() => setMobileMenuOpen(false)}
-                      className={cn(
-                        "block px-4 py-3 text-sm font-medium transition-colors",
-                        isActive(item.href)
-                          ? "text-primary"
-                          : "text-foreground hover:text-primary"
-                      )}
-                    >
-                      {item.name}
-                    </Link>
+                    {item.external ? (
+                      <a
+                        href={item.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={() => setMobileMenuOpen(false)}
+                        className={cn(
+                          "block px-4 py-3 text-sm font-medium transition-colors",
+                          "text-foreground hover:text-primary"
+                        )}
+                      >
+                        {item.name}
+                      </a>
+                    ) : (
+                      <Link
+                        href={item.href}
+                        onClick={() => setMobileMenuOpen(false)}
+                        className={cn(
+                          "block px-4 py-3 text-sm font-medium transition-colors",
+                          isActive(item.href)
+                            ? "text-primary"
+                            : "text-foreground hover:text-primary"
+                        )}
+                      >
+                        {item.name}
+                      </Link>
+                    )}
                   </div>
                 )
               )}

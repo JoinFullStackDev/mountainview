@@ -1,6 +1,64 @@
 import { createServerClient, type CookieOptions } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
+// =====================================================
+// Rate Limiting for Login Page
+// TODO: replace this in-memory store with Vercel KV / Upstash Redis
+// before going to production. The current implementation is per-instance
+// and resets on cold starts, which makes it unreliable on serverless.
+// =====================================================
+
+interface RateLimitEntry {
+  count: number;
+  resetAt: number;
+}
+
+const loginRateLimitStore = new Map<string, RateLimitEntry>();
+
+const LOGIN_RATE_LIMIT_WINDOW = 15 * 60 * 1000; // 15 minutes
+const LOGIN_RATE_LIMIT_MAX_ATTEMPTS = 10; // 10 attempts per window
+
+function getClientIP(request: NextRequest): string {
+  return (
+    request.headers.get("x-forwarded-for")?.split(",")[0] ||
+    request.headers.get("x-real-ip") ||
+    "unknown"
+  );
+}
+
+function isLoginRateLimited(ip: string): boolean {
+  const now = Date.now();
+  const entry = loginRateLimitStore.get(ip);
+
+  if (!entry || now > entry.resetAt) {
+    loginRateLimitStore.set(ip, { count: 1, resetAt: now + LOGIN_RATE_LIMIT_WINDOW });
+    return false;
+  }
+
+  if (entry.count >= LOGIN_RATE_LIMIT_MAX_ATTEMPTS) {
+    return true;
+  }
+
+  entry.count++;
+  return false;
+}
+
+// Cleanup old entries periodically
+if (typeof setInterval !== "undefined") {
+  setInterval(() => {
+    const now = Date.now();
+    for (const [key, entry] of loginRateLimitStore.entries()) {
+      if (now > entry.resetAt) {
+        loginRateLimitStore.delete(key);
+      }
+    }
+  }, 60 * 1000);
+}
+
+// =====================================================
+// Main Middleware Function
+// =====================================================
+
 export async function updateSession(request: NextRequest) {
   let supabaseResponse = NextResponse.next({
     request,
@@ -42,12 +100,31 @@ export async function updateSession(request: NextRequest) {
 
   // Protect admin routes
   if (request.nextUrl.pathname.startsWith("/admin")) {
-    // Allow access to login page
+    // Handle login page with rate limiting
     if (request.nextUrl.pathname === "/admin/login") {
       // If already logged in, redirect to dashboard
       if (user) {
         return NextResponse.redirect(new URL("/admin/dashboard", request.url));
       }
+
+      // Rate limit login page access
+      const ip = getClientIP(request);
+      if (isLoginRateLimited(ip)) {
+        // Return a rate limit response
+        return new NextResponse(
+          JSON.stringify({
+            error: "Too many login attempts. Please try again in 15 minutes.",
+          }),
+          {
+            status: 429,
+            headers: {
+              "Content-Type": "application/json",
+              "Retry-After": "900", // 15 minutes in seconds
+            },
+          }
+        );
+      }
+
       return supabaseResponse;
     }
 
@@ -63,18 +140,10 @@ export async function updateSession(request: NextRequest) {
       .eq("id", user.id)
       .single();
 
-    // Only allow users with admin, editor, or author roles
-    const allowedRoles = ["admin", "editor", "author", "viewer"];
+    // Only allow users with admin or staff roles into the admin area.
+    const allowedRoles = ["admin", "staff"];
     if (!profile || !allowedRoles.includes(profile.role)) {
       return NextResponse.redirect(new URL("/", request.url));
-    }
-
-    // Check specific route permissions
-    if (request.nextUrl.pathname.startsWith("/admin/users")) {
-      // Only admins can access user management
-      if (profile.role !== "admin") {
-        return NextResponse.redirect(new URL("/admin/dashboard", request.url));
-      }
     }
   }
 

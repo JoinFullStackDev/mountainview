@@ -1,11 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { motion, AnimatePresence } from "framer-motion";
-import { Phone, CheckCircle, Loader2 } from "lucide-react";
+import { Turnstile, type TurnstileInstance } from "@marsidev/react-turnstile";
+import { Phone, CheckCircle, Loader2, AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -17,6 +18,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { submitTransferForm } from "@/app/actions/form-submissions";
 
 const transferSchema = z.object({
   name: z
@@ -49,6 +51,9 @@ type TransferFormData = z.infer<typeof transferSchema>;
 export function TransferForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [generalError, setGeneralError] = useState<string | null>(null);
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
+  const turnstileRef = useRef<TurnstileInstance>(null);
 
   const form = useForm<TransferFormData>({
     resolver: zodResolver(transferSchema),
@@ -63,13 +68,57 @@ export function TransferForm() {
     },
   });
 
-  const onSubmit = async () => {
+  const onSubmit = async (data: TransferFormData) => {
+    setGeneralError(null);
+
+    // Validate Turnstile token (skip in development if not configured)
+    const isDev = process.env.NODE_ENV === "development";
+    const tokenToUse = turnstileToken || (isDev ? "dev-bypass" : null);
+    
+    if (!tokenToUse) {
+      setGeneralError("Please complete the security verification.");
+      return;
+    }
+
     setIsSubmitting(true);
-    // Simulate API call - in production this would submit to backend
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-    setIsSubmitting(false);
-    setIsSuccess(true);
+
+    try {
+      const result = await submitTransferForm(data, tokenToUse);
+
+      if (result.success) {
+        setIsSuccess(true);
+        form.reset();
+      } else {
+        if (result.fieldErrors) {
+          // Set field-specific errors
+          Object.entries(result.fieldErrors).forEach(([field, message]) => {
+            form.setError(field as keyof TransferFormData, { message });
+          });
+        } else if (result.error) {
+          setGeneralError(result.error);
+        }
+        // Reset Turnstile for retry
+        turnstileRef.current?.reset();
+        setTurnstileToken(null);
+      }
+    } catch {
+      setGeneralError("An unexpected error occurred. Please try again.");
+      turnstileRef.current?.reset();
+      setTurnstileToken(null);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
+
+  const resetForm = () => {
+    setIsSuccess(false);
+    setGeneralError(null);
+    setTurnstileToken(null);
+    form.reset();
+    turnstileRef.current?.reset();
+  };
+
+  const turnstileSiteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
 
   return (
     <div className="bg-card border border-border rounded-2xl p-6 md:p-8">
@@ -92,7 +141,7 @@ export function TransferForm() {
               We&apos;ll contact your current pharmacy and notify you when your
               prescriptions are ready. This typically takes 24-48 hours.
             </p>
-            <Button variant="outline" onClick={() => setIsSuccess(false)}>
+            <Button variant="outline" onClick={resetForm}>
               Submit Another Request
             </Button>
           </motion.div>
@@ -118,6 +167,13 @@ export function TransferForm() {
                 onSubmit={form.handleSubmit(onSubmit)}
                 className="space-y-4"
               >
+                {generalError && (
+                  <div className="p-4 rounded-lg bg-destructive/10 border border-destructive/20 flex items-start gap-3">
+                    <AlertCircle className="h-5 w-5 text-destructive flex-shrink-0 mt-0.5" />
+                    <p className="text-sm text-destructive">{generalError}</p>
+                  </div>
+                )}
+
                 <div className="grid sm:grid-cols-2 gap-4">
                   <FormField
                     control={form.control}
@@ -126,7 +182,11 @@ export function TransferForm() {
                       <FormItem>
                         <FormLabel>Full Name *</FormLabel>
                         <FormControl>
-                          <Input placeholder="John Smith" {...field} />
+                          <Input 
+                            placeholder="John Smith" 
+                            disabled={isSubmitting}
+                            {...field} 
+                          />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -139,7 +199,11 @@ export function TransferForm() {
                       <FormItem>
                         <FormLabel>Date of Birth *</FormLabel>
                         <FormControl>
-                          <Input type="date" {...field} />
+                          <Input 
+                            type="date" 
+                            disabled={isSubmitting}
+                            {...field} 
+                          />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -158,6 +222,7 @@ export function TransferForm() {
                           <Input
                             type="tel"
                             placeholder="(801) 555-1234"
+                            disabled={isSubmitting}
                             {...field}
                           />
                         </FormControl>
@@ -175,6 +240,7 @@ export function TransferForm() {
                           <Input
                             type="email"
                             placeholder="john@example.com"
+                            disabled={isSubmitting}
                             {...field}
                           />
                         </FormControl>
@@ -193,6 +259,7 @@ export function TransferForm() {
                       <FormControl>
                         <Input
                           placeholder="e.g., CVS on Main Street, Bountiful"
+                          disabled={isSubmitting}
                           {...field}
                         />
                       </FormControl>
@@ -211,6 +278,7 @@ export function TransferForm() {
                         <Textarea
                           placeholder="If you have specific Rx numbers, list them here. Otherwise, we'll transfer all active prescriptions."
                           className="min-h-[80px]"
+                          disabled={isSubmitting}
                           {...field}
                         />
                       </FormControl>
@@ -229,6 +297,7 @@ export function TransferForm() {
                         <Textarea
                           placeholder="Any special instructions or questions?"
                           className="min-h-[80px]"
+                          disabled={isSubmitting}
                           {...field}
                         />
                       </FormControl>
@@ -236,6 +305,19 @@ export function TransferForm() {
                     </FormItem>
                   )}
                 />
+
+                {/* Turnstile Widget */}
+                {turnstileSiteKey && (
+                  <div className="flex justify-center pt-2">
+                    <Turnstile
+                      ref={turnstileRef}
+                      siteKey={turnstileSiteKey}
+                      onSuccess={setTurnstileToken}
+                      onError={() => setTurnstileToken(null)}
+                      onExpire={() => setTurnstileToken(null)}
+                    />
+                  </div>
+                )}
 
                 <div className="pt-4 space-y-4">
                   <Button

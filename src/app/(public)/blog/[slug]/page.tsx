@@ -2,6 +2,7 @@ import { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getPostBySlug, getPublishedPosts, getAllPostSlugs } from "@/lib/supabase/posts";
+import { sanitizeHtml } from "@/lib/sanitize";
 import { format } from "date-fns";
 import { Calendar, Clock, User, ArrowLeft } from "lucide-react";
 
@@ -136,7 +137,7 @@ export default async function BlogPostPage({ params }: PageProps) {
               prose-blockquote:border-l-primary prose-blockquote:text-muted-foreground
               prose-code:text-primary prose-code:bg-muted prose-code:px-1 prose-code:rounded
             "
-            dangerouslySetInnerHTML={{ __html: post.content }}
+            dangerouslySetInnerHTML={{ __html: sanitizeHtml(post.content) }}
           />
         </div>
       </div>

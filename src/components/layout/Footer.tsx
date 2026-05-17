@@ -12,11 +12,6 @@ const footerLinks = {
     { name: 'Immunizations', href: '/patients/immunizations' },
     { name: 'Medication Sync', href: '/patients/med-sync' },
   ],
-  providers: [
-    { name: 'Compounding Services', href: '/providers/compounding' },
-    { name: 'How to Prescribe', href: '/providers/how-to-prescribe' },
-    { name: 'Quality & Compliance', href: '/providers/quality-compliance' },
-  ],
   company: [
     { name: 'About Us', href: '/about' },
     { name: 'Medical Kits', href: '/medical-kits' },
@@ -51,7 +46,7 @@ export function Footer() {
         viewport={{ once: true, amount: 0.2 }}
         variants={containerVariants}
       >
-        <div className="grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-5">
+        <div className="grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-4">
           {/* Brand Column */}
           <motion.div variants={itemVariants} className="lg:col-span-2">
             <Link href="/" className="inline-block">
@@ -105,7 +100,7 @@ export function Footer() {
 
             {/* Shop link */}
             <motion.a
-              href="https://shop.mtviewpharmacy.com"
+              href="https://mvp-shop-1234.myshopify.com/"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-1.5 mt-4 text-sm font-medium text-primary-foreground/80 hover:text-primary-foreground transition-colors"
@@ -122,27 +117,6 @@ export function Footer() {
             </h3>
             <ul className="mt-3 space-y-2">
               {footerLinks.patients.map((link) => (
-                <li key={link.name}>
-                  <motion.div whileHover={{ x: 3 }} transition={{ type: "spring", stiffness: 300 }}>
-                    <Link 
-                      href={link.href} 
-                      className="text-sm text-primary-foreground/70 hover:text-primary-foreground transition-colors"
-                    >
-                      {link.name}
-                    </Link>
-                  </motion.div>
-                </li>
-              ))}
-            </ul>
-          </motion.div>
-
-          {/* Providers Links */}
-          <motion.div variants={itemVariants}>
-            <h3 className="text-sm font-semibold text-primary-foreground uppercase tracking-wider">
-              For Providers
-            </h3>
-            <ul className="mt-3 space-y-2">
-              {footerLinks.providers.map((link) => (
                 <li key={link.name}>
                   <motion.div whileHover={{ x: 3 }} transition={{ type: "spring", stiffness: 300 }}>
                     <Link 

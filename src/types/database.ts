@@ -1,4 +1,4 @@
-export type UserRole = "admin" | "editor" | "author" | "viewer";
+export type UserRole = "admin" | "staff";
 
 export type PostStatus = "draft" | "published" | "archived";
 
@@ -42,6 +42,21 @@ export interface Category {
   created_at: string;
 }
 
+export interface MediaItem {
+  id: string;
+  file_name: string;
+  file_path: string;
+  public_url: string;
+  file_size: number;
+  mime_type: string;
+  width: number | null;
+  height: number | null;
+  alt_text: string | null;
+  folder: string;
+  uploaded_by: string | null;
+  created_at: string;
+}
+
 // Database types for Supabase
 export interface Database {
   public: {
@@ -60,6 +75,11 @@ export interface Database {
         Row: Category;
         Insert: Omit<Category, "id" | "created_at">;
         Update: Partial<Omit<Category, "id" | "created_at">>;
+      };
+      media: {
+        Row: MediaItem;
+        Insert: Omit<MediaItem, "id" | "created_at">;
+        Update: Partial<Omit<MediaItem, "id" | "created_at">>;
       };
     };
   };

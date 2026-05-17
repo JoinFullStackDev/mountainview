@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
-import { Briefcase, CheckCircle, Plus } from "lucide-react";
+import { useState, useRef } from "react";
+import { Turnstile, type TurnstileInstance } from "@marsidev/react-turnstile";
+import { Briefcase, CheckCircle, Plus, Loader2, AlertCircle } from "lucide-react";
 import { PageHero } from "@/components/shared/PageHero";
 import { Section } from "@/components/shared/Section";
 import { FAQ } from "@/components/shared/FAQ";
@@ -10,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
+import { submitMedicalKitForm } from "@/app/actions/form-submissions";
 
 const kitContents = [
   "Emergency medications and supplies",
@@ -71,25 +73,44 @@ const faqItems = [
 ];
 
 export default function MedicalKits() {
-  const [formState, setFormState] = useState<"idle" | "success">("idle");
+  const [formState, setFormState] = useState<"idle" | "submitting" | "success" | "error">("idle");
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [generalError, setGeneralError] = useState<string | null>(null);
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
+  const turnstileRef = useRef<TurnstileInstance>(null);
+  const formRef = useRef<HTMLFormElement>(null);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setErrors({});
+    setGeneralError(null);
+
+    // Validate Turnstile token (skip in development if not configured)
+    const isDev = process.env.NODE_ENV === "development";
+    const tokenToUse = turnstileToken || (isDev ? "dev-bypass" : null);
+    
+    if (!tokenToUse) {
+      setGeneralError("Please complete the security verification.");
+      return;
+    }
+
     const formData = new FormData(e.currentTarget);
     const newErrors: Record<string, string> = {};
 
-    const name = formData.get("name") as string;
-    const email = formData.get("email") as string;
-    const needs = formData.get("needs") as string;
+    const name = (formData.get("name") as string)?.trim();
+    const email = (formData.get("email") as string)?.trim();
+    const phone = (formData.get("phone") as string)?.trim() || undefined;
+    const kitType = (formData.get("kitType") as string)?.trim() || undefined;
+    const needs = (formData.get("needs") as string)?.trim();
 
-    if (!name || name.trim().length < 2) {
+    // Client-side validation
+    if (!name || name.length < 2) {
       newErrors.name = "Please enter your name";
     }
     if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       newErrors.email = "Please enter a valid email address";
     }
-    if (!needs || needs.trim().length < 10) {
+    if (!needs || needs.length < 10) {
       newErrors.needs = "Please describe your needs (at least 10 characters)";
     }
 
@@ -98,9 +119,45 @@ export default function MedicalKits() {
       return;
     }
 
-    setErrors({});
-    setFormState("success");
+    setFormState("submitting");
+
+    try {
+      const result = await submitMedicalKitForm(
+        { name, email, phone, kitType, needs },
+        tokenToUse
+      );
+
+      if (result.success) {
+        setFormState("success");
+        formRef.current?.reset();
+      } else {
+        setFormState("error");
+        if (result.fieldErrors) {
+          setErrors(result.fieldErrors);
+        } else if (result.error) {
+          setGeneralError(result.error);
+        }
+        // Reset Turnstile for retry
+        turnstileRef.current?.reset();
+        setTurnstileToken(null);
+      }
+    } catch {
+      setFormState("error");
+      setGeneralError("An unexpected error occurred. Please try again.");
+      turnstileRef.current?.reset();
+      setTurnstileToken(null);
+    }
   };
+
+  const resetForm = () => {
+    setFormState("idle");
+    setErrors({});
+    setGeneralError(null);
+    setTurnstileToken(null);
+    turnstileRef.current?.reset();
+  };
+
+  const turnstileSiteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
 
   return (
     <>
@@ -217,7 +274,7 @@ export default function MedicalKits() {
                 1-2 business days to discuss your medical kit needs.
               </p>
               <Button
-                onClick={() => setFormState("idle")}
+                onClick={resetForm}
                 variant="outline"
                 className="mt-6"
               >
@@ -225,7 +282,14 @@ export default function MedicalKits() {
               </Button>
             </div>
           ) : (
-            <form onSubmit={handleSubmit} className="card-base p-8 space-y-6">
+            <form ref={formRef} onSubmit={handleSubmit} className="card-base p-8 space-y-6">
+              {generalError && (
+                <div className="p-4 rounded-lg bg-destructive/10 border border-destructive/20 flex items-start gap-3">
+                  <AlertCircle className="h-5 w-5 text-destructive flex-shrink-0 mt-0.5" />
+                  <p className="text-sm text-destructive">{generalError}</p>
+                </div>
+              )}
+
               <div className="grid sm:grid-cols-2 gap-4">
                 <div>
                   <Label htmlFor="name">Full Name *</Label>
@@ -234,6 +298,7 @@ export default function MedicalKits() {
                     name="name"
                     type="text"
                     placeholder="John Doe"
+                    disabled={formState === "submitting"}
                     className={errors.name ? "border-destructive" : ""}
                   />
                   {errors.name && (
@@ -249,6 +314,7 @@ export default function MedicalKits() {
                     name="email"
                     type="email"
                     placeholder="john@example.com"
+                    disabled={formState === "submitting"}
                     className={errors.email ? "border-destructive" : ""}
                   />
                   {errors.email && (
@@ -266,6 +332,7 @@ export default function MedicalKits() {
                   name="phone"
                   type="tel"
                   placeholder="801-555-1234"
+                  disabled={formState === "submitting"}
                 />
               </div>
 
@@ -276,6 +343,7 @@ export default function MedicalKits() {
                   name="kitType"
                   type="text"
                   placeholder="e.g., Travel, Home Emergency, Workplace"
+                  disabled={formState === "submitting"}
                 />
               </div>
 
@@ -286,6 +354,7 @@ export default function MedicalKits() {
                   name="needs"
                   placeholder="Tell us about your health conditions, travel plans, or specific requirements..."
                   rows={4}
+                  disabled={formState === "submitting"}
                   className={errors.needs ? "border-destructive" : ""}
                 />
                 {errors.needs && (
@@ -295,8 +364,46 @@ export default function MedicalKits() {
                 )}
               </div>
 
-              <Button type="submit" size="lg" className="w-full">
-                Submit Inquiry
+              {/* Turnstile Widget */}
+              {turnstileSiteKey ? (
+                <div className="flex justify-center">
+                  <Turnstile
+                    ref={turnstileRef}
+                    siteKey={turnstileSiteKey}
+                    onSuccess={(token) => {
+                      console.log("Turnstile success, token received");
+                      setTurnstileToken(token);
+                    }}
+                    onError={(error) => {
+                      console.error("Turnstile error:", error);
+                      setTurnstileToken(null);
+                    }}
+                    onExpire={() => {
+                      console.log("Turnstile token expired");
+                      setTurnstileToken(null);
+                    }}
+                  />
+                </div>
+              ) : (
+                <p className="text-sm text-muted-foreground text-center">
+                  Security verification not configured
+                </p>
+              )}
+
+              <Button 
+                type="submit" 
+                size="lg" 
+                className="w-full"
+                disabled={formState === "submitting"}
+              >
+                {formState === "submitting" ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Submitting...
+                  </>
+                ) : (
+                  "Submit Inquiry"
+                )}
               </Button>
             </form>
           )}

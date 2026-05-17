@@ -6,6 +6,7 @@ export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "Admin Login",
   description: "Sign in to the Mountain View Pharmacy admin dashboard",
+  robots: { index: false, follow: false },
 };
 
 export default function LoginPage() {

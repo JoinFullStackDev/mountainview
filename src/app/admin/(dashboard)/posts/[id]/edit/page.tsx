@@ -44,11 +44,8 @@ export default async function EditPostPage({ params }: PageProps) {
     notFound();
   }
 
-  // Check if user can edit this post
-  const canEdit =
-    profile.role === "admin" ||
-    profile.role === "editor" ||
-    post.author_id === user.id;
+  // Both admin and staff can edit any post.
+  const canEdit = profile.role === "admin" || profile.role === "staff";
 
   if (!canEdit) {
     redirect("/admin/posts");

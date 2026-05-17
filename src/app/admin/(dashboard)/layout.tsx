@@ -1,8 +1,15 @@
 import { redirect } from "next/navigation";
+import type { Metadata } from "next";
 import { createClient } from "@/lib/supabase/server";
 import { AdminSidebar } from "@/components/admin/admin-sidebar";
 import { AdminHeader } from "@/components/admin/admin-header";
 import type { Profile } from "@/types/database";
+
+const ALLOWED_ROLES = ["admin", "staff"] as const;
+
+export const metadata: Metadata = {
+  robots: { index: false, follow: false },
+};
 
 export default async function AdminDashboardLayout({
   children,
@@ -25,6 +32,13 @@ export default async function AdminDashboardLayout({
 
   if (!profile) {
     redirect("/admin/login");
+  }
+
+  // Defense in depth: middleware already enforces this, but checking here
+  // protects against any case where the middleware doesn't run (e.g. an
+  // explicitly invoked Server Component bypassing the matcher in the future).
+  if (!ALLOWED_ROLES.includes(profile.role)) {
+    redirect("/");
   }
 
   return (

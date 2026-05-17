@@ -6,7 +6,6 @@ import {
   RefreshCw,
   Syringe,
   FileSearch,
-  Briefcase,
   Leaf,
 } from "lucide-react";
 import { PageHero } from "@/components/shared/PageHero";
@@ -49,13 +48,6 @@ const services = [
     description:
       "Comprehensive medication therapy management to optimize your drug regimen.",
     href: "/services/comprehensive-medication-review",
-  },
-  {
-    icon: <Briefcase className="h-6 w-6" />,
-    title: "Workers' Compensation",
-    description:
-      "Specialized pharmacy services for workplace injury prescriptions and claims.",
-    href: "/services/workers-compensation",
   },
   {
     icon: <Leaf className="h-6 w-6" />,

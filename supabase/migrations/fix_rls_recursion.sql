@@ -80,6 +80,13 @@ CREATE POLICY "Admins can delete any post"
 -- Fix STORAGE policies
 -- =====================================================
 
+-- Public can view images (no recursion issue here, but keeping for completeness)
+DROP POLICY IF EXISTS "Public can view blog images" ON storage.objects;
+CREATE POLICY "Public can view blog images"
+  ON storage.objects FOR SELECT
+  USING (bucket_id = 'blog-images');
+
+-- Authors, editors, admins can upload images
 DROP POLICY IF EXISTS "Authors can upload blog images" ON storage.objects;
 CREATE POLICY "Authors can upload blog images"
   ON storage.objects FOR INSERT
@@ -88,6 +95,25 @@ CREATE POLICY "Authors can upload blog images"
     public.user_has_role(ARRAY['admin', 'editor', 'author'])
   );
 
+-- Users can update their own uploaded images
+DROP POLICY IF EXISTS "Users can update own images" ON storage.objects;
+CREATE POLICY "Users can update own images"
+  ON storage.objects FOR UPDATE
+  USING (
+    bucket_id = 'blog-images' AND
+    owner = auth.uid()
+  );
+
+-- Users can delete their own images
+DROP POLICY IF EXISTS "Users can delete own images" ON storage.objects;
+CREATE POLICY "Users can delete own images"
+  ON storage.objects FOR DELETE
+  USING (
+    bucket_id = 'blog-images' AND
+    owner = auth.uid()
+  );
+
+-- Admins can delete any blog images
 DROP POLICY IF EXISTS "Admins can delete blog images" ON storage.objects;
 CREATE POLICY "Admins can delete blog images"
   ON storage.objects FOR DELETE

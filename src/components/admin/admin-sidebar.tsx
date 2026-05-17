@@ -3,13 +3,11 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
-import { 
-  LayoutDashboard, 
-  FileText, 
-  Users, 
-  FolderOpen,
-  Settings,
-  Home
+import {
+  LayoutDashboard,
+  FileText,
+  Home,
+  ImageIcon,
 } from "lucide-react";
 import type { UserRole } from "@/types/database";
 
@@ -17,12 +15,15 @@ interface AdminSidebarProps {
   userRole: UserRole;
 }
 
-const navigation = [
-  { name: "Dashboard", href: "/admin/dashboard", icon: LayoutDashboard, roles: ["admin", "editor", "author", "viewer"] },
-  { name: "Posts", href: "/admin/posts", icon: FileText, roles: ["admin", "editor", "author"] },
-  { name: "Categories", href: "/admin/categories", icon: FolderOpen, roles: ["admin", "editor"] },
-  { name: "Users", href: "/admin/users", icon: Users, roles: ["admin"] },
-  { name: "Settings", href: "/admin/settings", icon: Settings, roles: ["admin"] },
+const navigation: ReadonlyArray<{
+  name: string;
+  href: string;
+  icon: typeof LayoutDashboard;
+  roles: ReadonlyArray<UserRole>;
+}> = [
+  { name: "Dashboard", href: "/admin/dashboard", icon: LayoutDashboard, roles: ["admin", "staff"] },
+  { name: "Posts", href: "/admin/posts", icon: FileText, roles: ["admin", "staff"] },
+  { name: "Media", href: "/admin/media", icon: ImageIcon, roles: ["admin", "staff"] },
 ];
 
 export function AdminSidebar({ userRole }: AdminSidebarProps) {

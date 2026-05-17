@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { 
+import {
   Select,
   SelectContent,
   SelectItem,
@@ -18,6 +18,8 @@ import { Switch } from "@/components/ui/switch";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { TipTapEditor } from "./tiptap-editor";
 import { ImageUploader } from "./image-uploader";
+import { MediaPicker } from "./media-picker";
+import { CategoryCombobox } from "./category-combobox";
 import { Loader2, Save, Eye, ChevronDown, ChevronUp, AlertCircle } from "lucide-react";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
@@ -73,6 +75,12 @@ export function PostEditor({ post, categories, authorId, authorName }: PostEdito
   const [showSeo, setShowSeo] = useState(false);
   const [errors, setErrors] = useState<FieldErrors>({});
   
+  // Media picker state
+  const [contentMediaPickerOpen, setContentMediaPickerOpen] = useState(false);
+  const [featuredMediaPickerOpen, setFeaturedMediaPickerOpen] = useState(false);
+  const [ogMediaPickerOpen, setOgMediaPickerOpen] = useState(false);
+  const [pendingImageCallback, setPendingImageCallback] = useState<((url: string) => void) | null>(null);
+  
   // Refs for scrolling to error fields
   const titleRef = useRef<HTMLInputElement>(null);
   const slugRef = useRef<HTMLInputElement>(null);
@@ -86,6 +94,7 @@ export function PostEditor({ post, categories, authorId, authorName }: PostEdito
   const [excerpt, setExcerpt] = useState(post?.excerpt || "");
   const [content, setContent] = useState(post?.content || "");
   const [category, setCategory] = useState(post?.category || "");
+  const [categoryList, setCategoryList] = useState<Category[]>(categories);
   const [featuredImage, setFeaturedImage] = useState(post?.featured_image || "");
   const [status, setStatus] = useState<"draft" | "published">(
     post?.status === "published" ? "published" : "draft"
@@ -117,6 +126,24 @@ export function PostEditor({ post, categories, authorId, authorName }: PostEdito
       setSlug(generateSlug(value));
       clearError("slug");
     }
+  };
+
+  // Handler for TipTap inline image insertion
+  const handleContentImageUpload = useCallback((): Promise<string | null> => {
+    return new Promise((resolve) => {
+      setPendingImageCallback(() => (url: string) => {
+        resolve(url);
+        setPendingImageCallback(null);
+      });
+      setContentMediaPickerOpen(true);
+    });
+  }, []);
+
+  const handleContentMediaSelect = (url: string) => {
+    if (pendingImageCallback) {
+      pendingImageCallback(url);
+    }
+    setContentMediaPickerOpen(false);
   };
 
   const validateForm = (): boolean => {
@@ -307,7 +334,8 @@ export function PostEditor({ post, categories, authorId, authorName }: PostEdito
                 onChange={(value) => {
                   setContent(value);
                   clearError("content");
-                }} 
+                }}
+                onImageUpload={handleContentImageUpload}
               />
             </div>
             <FieldError message={errors.content} />
@@ -369,6 +397,9 @@ export function PostEditor({ post, categories, authorId, authorName }: PostEdito
                   onChange={setOgImage}
                   folder="og-images"
                   aspectRatio="video"
+                  saveToMediaLibrary
+                  showLibraryOption
+                  onLibraryClick={() => setOgMediaPickerOpen(true)}
                 />
                 <p className="text-xs text-muted-foreground">
                   Recommended: 1200x630px for social sharing
@@ -446,27 +477,25 @@ export function PostEditor({ post, categories, authorId, authorName }: PostEdito
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <Select 
-              value={category} 
-              onValueChange={(value) => {
+            <CategoryCombobox
+              ref={categoryRef}
+              categories={categoryList}
+              value={category}
+              onChange={(value) => {
                 setCategory(value);
                 clearError("category");
               }}
-            >
-              <SelectTrigger 
-                ref={categoryRef}
-                className={cn(errors.category && "border-destructive focus:ring-destructive")}
-              >
-                <SelectValue placeholder="Select category" />
-              </SelectTrigger>
-              <SelectContent>
-                {categories.map((cat) => (
-                  <SelectItem key={cat.id} value={cat.name}>
-                    {cat.name}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+              onCategoryCreated={(newCategory) => {
+                setCategoryList((prev) =>
+                  prev.some((c) => c.id === newCategory.id)
+                    ? prev
+                    : [...prev, newCategory].sort((a, b) =>
+                        a.name.localeCompare(b.name)
+                      )
+                );
+              }}
+              invalid={!!errors.category}
+            />
             <FieldError message={errors.category} />
           </CardContent>
         </Card>
@@ -481,10 +510,49 @@ export function PostEditor({ post, categories, authorId, authorName }: PostEdito
               onChange={setFeaturedImage}
               folder="featured"
               aspectRatio="video"
+              saveToMediaLibrary
+              showLibraryOption
+              onLibraryClick={() => setFeaturedMediaPickerOpen(true)}
             />
           </CardContent>
         </Card>
       </div>
+
+      {/* Media Pickers */}
+      <MediaPicker
+        open={contentMediaPickerOpen}
+        onOpenChange={(open) => {
+          setContentMediaPickerOpen(open);
+          if (!open && pendingImageCallback) {
+            setPendingImageCallback(null);
+          }
+        }}
+        onSelect={handleContentMediaSelect}
+        folder="content"
+        title="Insert Image"
+      />
+
+      <MediaPicker
+        open={featuredMediaPickerOpen}
+        onOpenChange={setFeaturedMediaPickerOpen}
+        onSelect={(url) => {
+          setFeaturedImage(url);
+          setFeaturedMediaPickerOpen(false);
+        }}
+        folder="featured"
+        title="Select Featured Image"
+      />
+
+      <MediaPicker
+        open={ogMediaPickerOpen}
+        onOpenChange={setOgMediaPickerOpen}
+        onSelect={(url) => {
+          setOgImage(url);
+          setOgMediaPickerOpen(false);
+        }}
+        folder="og-images"
+        title="Select Open Graph Image"
+      />
     </div>
   );
 }
