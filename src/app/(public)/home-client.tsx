@@ -324,10 +324,12 @@ export default function HomeClient() {
                     ease: "easeInOut",
                   }}
                 >
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src="/images/pharmacy-interior-1.jpg"
-                    alt="Mountain View Pharmacy interior"
+                  <video
+                    src="/images/hero-video.mp4"
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
                     className="w-full h-full object-cover"
                   />
                 </motion.div>
