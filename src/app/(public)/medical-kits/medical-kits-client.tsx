@@ -1,15 +1,11 @@
 "use client";
 
-import { useState, useRef } from "react";
-import { Briefcase, CheckCircle, Plus, Loader2, AlertCircle } from "lucide-react";
+import { useEffect } from "react";
+import { Briefcase, Plus } from "lucide-react";
 import { PageHero } from "@/components/shared/PageHero";
 import { Section } from "@/components/shared/Section";
 import { FAQ } from "@/components/shared/FAQ";
 import { FeatureList } from "@/components/shared/FeatureList";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Label } from "@/components/ui/label";
 
 const kitContents = [
   "Emergency medications and supplies",
@@ -71,48 +67,15 @@ const faqItems = [
 ];
 
 export default function MedicalKitsClient() {
-  const [formState, setFormState] = useState<"idle" | "submitting" | "success" | "error">("idle");
-  const [errors, setErrors] = useState<Record<string, string>>({});
-  const [generalError, setGeneralError] = useState<string | null>(null);
-  const formRef = useRef<HTMLFormElement>(null);
-
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setErrors({});
-    setGeneralError(null);
-
-    const formData = new FormData(e.currentTarget);
-    const newErrors: Record<string, string> = {};
-
-    const name = (formData.get("name") as string)?.trim();
-    const email = (formData.get("email") as string)?.trim();
-    const needs = (formData.get("needs") as string)?.trim();
-
-    if (!name || name.length < 2) {
-      newErrors.name = "Please enter your name";
-    }
-    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      newErrors.email = "Please enter a valid email address";
-    }
-    if (!needs || needs.length < 10) {
-      newErrors.needs = "Please describe your needs (at least 10 characters)";
-    }
-
-    if (Object.keys(newErrors).length > 0) {
-      setErrors(newErrors);
-      return;
-    }
-
-    // TODO: Replace with GHL embedded form
-    setFormState("success");
-    formRef.current?.reset();
-  };
-
-  const resetForm = () => {
-    setFormState("idle");
-    setErrors({});
-    setGeneralError(null);
-  };
+  useEffect(() => {
+    const script = document.createElement("script");
+    script.src = "https://link.msgsndr.com/js/form_embed.js";
+    script.async = true;
+    document.body.appendChild(script);
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, []);
 
   return (
     <>
@@ -217,125 +180,23 @@ export default function MedicalKitsClient() {
               perfect kit.
             </p>
           </div>
-
-          {formState === "success" ? (
-            <div className="card-base p-8 text-center">
-              <div className="h-16 w-16 mx-auto rounded-full bg-success/10 flex items-center justify-center mb-4">
-                <CheckCircle className="h-8 w-8 text-success" />
-              </div>
-              <h3 className="text-xl font-semibold">Inquiry Submitted!</h3>
-              <p className="mt-2 text-muted-foreground">
-                Thank you for your interest. Our team will contact you within
-                1-2 business days to discuss your medical kit needs.
-              </p>
-              <Button
-                onClick={resetForm}
-                variant="outline"
-                className="mt-6"
-              >
-                Submit Another Inquiry
-              </Button>
-            </div>
-          ) : (
-            <form ref={formRef} onSubmit={handleSubmit} className="card-base p-8 space-y-6">
-              {generalError && (
-                <div className="p-4 rounded-lg bg-destructive/10 border border-destructive/20 flex items-start gap-3">
-                  <AlertCircle className="h-5 w-5 text-destructive flex-shrink-0 mt-0.5" />
-                  <p className="text-sm text-destructive">{generalError}</p>
-                </div>
-              )}
-
-              <div className="grid sm:grid-cols-2 gap-4">
-                <div>
-                  <Label htmlFor="name">Full Name *</Label>
-                  <Input
-                    id="name"
-                    name="name"
-                    type="text"
-                    placeholder="John Doe"
-                    disabled={formState === "submitting"}
-                    className={errors.name ? "border-destructive" : ""}
-                  />
-                  {errors.name && (
-                    <p className="text-sm text-destructive mt-1">
-                      {errors.name}
-                    </p>
-                  )}
-                </div>
-                <div>
-                  <Label htmlFor="email">Email Address *</Label>
-                  <Input
-                    id="email"
-                    name="email"
-                    type="email"
-                    placeholder="john@example.com"
-                    disabled={formState === "submitting"}
-                    className={errors.email ? "border-destructive" : ""}
-                  />
-                  {errors.email && (
-                    <p className="text-sm text-destructive mt-1">
-                      {errors.email}
-                    </p>
-                  )}
-                </div>
-              </div>
-
-              <div>
-                <Label htmlFor="phone">Phone Number</Label>
-                <Input
-                  id="phone"
-                  name="phone"
-                  type="tel"
-                  placeholder="801-555-1234"
-                  disabled={formState === "submitting"}
-                />
-              </div>
-
-              <div>
-                <Label htmlFor="kitType">Kit Type</Label>
-                <Input
-                  id="kitType"
-                  name="kitType"
-                  type="text"
-                  placeholder="e.g., Travel, Home Emergency, Workplace"
-                  disabled={formState === "submitting"}
-                />
-              </div>
-
-              <div>
-                <Label htmlFor="needs">Describe Your Needs *</Label>
-                <Textarea
-                  id="needs"
-                  name="needs"
-                  placeholder="Tell us about your health conditions, travel plans, or specific requirements..."
-                  rows={4}
-                  disabled={formState === "submitting"}
-                  className={errors.needs ? "border-destructive" : ""}
-                />
-                {errors.needs && (
-                  <p className="text-sm text-destructive mt-1">
-                    {errors.needs}
-                  </p>
-                )}
-              </div>
-
-              <Button 
-                type="submit" 
-                size="lg" 
-                className="w-full"
-                disabled={formState === "submitting"}
-              >
-                {formState === "submitting" ? (
-                  <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Submitting...
-                  </>
-                ) : (
-                  "Submit Inquiry"
-                )}
-              </Button>
-            </form>
-          )}
+          <iframe
+            src="https://api.leadconnectorhq.com/widget/form/cZ5oknEs3MXoMiadkwxV"
+            style={{ width: "100%", minHeight: "561px", border: "none", borderRadius: "8px" }}
+            id="inline-cZ5oknEs3MXoMiadkwxV"
+            data-layout="{'id':'INLINE'}"
+            data-trigger-type="alwaysShow"
+            data-trigger-value=""
+            data-activation-type="alwaysActivated"
+            data-activation-value=""
+            data-deactivation-type="neverDeactivate"
+            data-deactivation-value=""
+            data-form-name="MedKit"
+            data-height="561"
+            data-layout-iframe-id="inline-cZ5oknEs3MXoMiadkwxV"
+            data-form-id="cZ5oknEs3MXoMiadkwxV"
+            title="MedKit"
+          />
         </div>
       </Section>
     </>
