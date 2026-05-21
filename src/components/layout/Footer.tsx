@@ -100,7 +100,7 @@ export function Footer() {
 
             {/* Shop link */}
             <motion.a
-              href="https://mvp-shop-1234.myshopify.com/"
+              href="https://shop.mtviewpharmacy.com/"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-1.5 mt-4 text-sm font-medium text-primary-foreground/80 hover:text-primary-foreground transition-colors"

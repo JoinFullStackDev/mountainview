@@ -61,7 +61,7 @@ const navigation = [
   },
   {
     name: 'Shop',
-    href: 'https://mvp-shop-1234.myshopify.com/',
+    href: 'https://shop.mtviewpharmacy.com/',
     external: true,
   },
 ];
