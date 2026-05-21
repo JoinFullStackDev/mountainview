@@ -1,8 +1,8 @@
 "use client";
 
+import { useEffect } from "react";
 import { Clock, FileText, HeartPulse, Sparkles } from "lucide-react";
 import { PatientPageTemplate } from "@/components/patients/PatientPageTemplate";
-import { TransferForm } from "@/components/patients/TransferForm";
 import { Section } from "@/components/shared/Section";
 
 const helpItems = [
@@ -89,6 +89,16 @@ const faqs = [
 ];
 
 export default function TransferPrescriptionsClient() {
+  useEffect(() => {
+    const script = document.createElement("script");
+    script.src = "https://link.msgsndr.com/js/form_embed.js";
+    script.async = true;
+    document.body.appendChild(script);
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, []);
+
   return (
     <PatientPageTemplate
       title="Transfer Prescriptions"
@@ -106,7 +116,23 @@ export default function TransferPrescriptionsClient() {
       beforeSteps={
         <Section variant="default" size="default">
           <div className="max-w-2xl mx-auto">
-            <TransferForm />
+            <iframe
+              src="https://api.leadconnectorhq.com/widget/form/11sf7kbCpwWqhCI1Pm3G"
+              style={{ width: "100%", minHeight: "600px", border: "none", borderRadius: "8px" }}
+              id="inline-11sf7kbCpwWqhCI1Pm3G"
+              data-layout="{'id':'INLINE'}"
+              data-trigger-type="alwaysShow"
+              data-trigger-value=""
+              data-activation-type="alwaysActivated"
+              data-activation-value=""
+              data-deactivation-type="neverDeactivate"
+              data-deactivation-value=""
+              data-form-name="TransferRX"
+              data-height="undefined"
+              data-layout-iframe-id="inline-11sf7kbCpwWqhCI1Pm3G"
+              data-form-id="11sf7kbCpwWqhCI1Pm3G"
+              title="TransferRX"
+            />
           </div>
         </Section>
       }

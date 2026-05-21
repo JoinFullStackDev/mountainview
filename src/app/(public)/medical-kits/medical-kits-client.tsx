@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useRef } from "react";
-import { Turnstile, type TurnstileInstance } from "@marsidev/react-turnstile";
 import { Briefcase, CheckCircle, Plus, Loader2, AlertCircle } from "lucide-react";
 import { PageHero } from "@/components/shared/PageHero";
 import { Section } from "@/components/shared/Section";
@@ -11,7 +10,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { submitMedicalKitForm } from "@/app/actions/form-submissions";
 
 const kitContents = [
   "Emergency medications and supplies",
@@ -76,8 +74,6 @@ export default function MedicalKitsClient() {
   const [formState, setFormState] = useState<"idle" | "submitting" | "success" | "error">("idle");
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [generalError, setGeneralError] = useState<string | null>(null);
-  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
-  const turnstileRef = useRef<TurnstileInstance>(null);
   const formRef = useRef<HTMLFormElement>(null);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -85,25 +81,13 @@ export default function MedicalKitsClient() {
     setErrors({});
     setGeneralError(null);
 
-    // Validate Turnstile token (skip in development if not configured)
-    const isDev = process.env.NODE_ENV === "development";
-    const tokenToUse = turnstileToken || (isDev ? "dev-bypass" : null);
-    
-    if (!tokenToUse) {
-      setGeneralError("Please complete the security verification.");
-      return;
-    }
-
     const formData = new FormData(e.currentTarget);
     const newErrors: Record<string, string> = {};
 
     const name = (formData.get("name") as string)?.trim();
     const email = (formData.get("email") as string)?.trim();
-    const phone = (formData.get("phone") as string)?.trim() || undefined;
-    const kitType = (formData.get("kitType") as string)?.trim() || undefined;
     const needs = (formData.get("needs") as string)?.trim();
 
-    // Client-side validation
     if (!name || name.length < 2) {
       newErrors.name = "Please enter your name";
     }
@@ -119,45 +103,16 @@ export default function MedicalKitsClient() {
       return;
     }
 
-    setFormState("submitting");
-
-    try {
-      const result = await submitMedicalKitForm(
-        { name, email, phone, kitType, needs },
-        tokenToUse
-      );
-
-      if (result.success) {
-        setFormState("success");
-        formRef.current?.reset();
-      } else {
-        setFormState("error");
-        if (result.fieldErrors) {
-          setErrors(result.fieldErrors);
-        } else if (result.error) {
-          setGeneralError(result.error);
-        }
-        // Reset Turnstile for retry
-        turnstileRef.current?.reset();
-        setTurnstileToken(null);
-      }
-    } catch {
-      setFormState("error");
-      setGeneralError("An unexpected error occurred. Please try again.");
-      turnstileRef.current?.reset();
-      setTurnstileToken(null);
-    }
+    // TODO: Replace with GHL embedded form
+    setFormState("success");
+    formRef.current?.reset();
   };
 
   const resetForm = () => {
     setFormState("idle");
     setErrors({});
     setGeneralError(null);
-    setTurnstileToken(null);
-    turnstileRef.current?.reset();
   };
-
-  const turnstileSiteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
 
   return (
     <>
@@ -363,32 +318,6 @@ export default function MedicalKitsClient() {
                   </p>
                 )}
               </div>
-
-              {/* Turnstile Widget */}
-              {turnstileSiteKey ? (
-                <div className="flex justify-center">
-                  <Turnstile
-                    ref={turnstileRef}
-                    siteKey={turnstileSiteKey}
-                    onSuccess={(token) => {
-                      console.log("Turnstile success, token received");
-                      setTurnstileToken(token);
-                    }}
-                    onError={(error) => {
-                      console.error("Turnstile error:", error);
-                      setTurnstileToken(null);
-                    }}
-                    onExpire={() => {
-                      console.log("Turnstile token expired");
-                      setTurnstileToken(null);
-                    }}
-                  />
-                </div>
-              ) : (
-                <p className="text-sm text-muted-foreground text-center">
-                  Security verification not configured
-                </p>
-              )}
 
               <Button 
                 type="submit" 
