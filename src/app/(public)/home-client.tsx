@@ -7,7 +7,6 @@ import {
   useInView,
   useMotionValue,
   useTransform,
-  useScroll,
   animate,
 } from "framer-motion";
 import {
@@ -199,9 +198,6 @@ function AnimatedCounter({
 }
 
 export default function HomeClient() {
-  const { scrollY } = useScroll();
-  const heroImageY = useTransform(scrollY, [0, 600], [0, 60]);
-
   return (
     <>
       {/* Hero Section */}
@@ -228,155 +224,142 @@ export default function HomeClient() {
           transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
         />
 
-        <div className="container-wide py-20 md:py-28 lg:py-36 relative">
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-            <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.7, ease: "easeOut" }}
+        <div className="container-wide pt-20 md:pt-28 lg:pt-32 pb-16 md:pb-20 lg:pb-24 relative">
+          <motion.div
+            className="mx-auto max-w-4xl text-center"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, ease: "easeOut" }}
+          >
+            <motion.span
+              className="badge-primary mb-6 inline-flex items-center gap-1.5"
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.2 }}
             >
-              <motion.span
-                className="badge-primary mb-4 inline-flex items-center gap-1.5"
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.2 }}
-              >
-                <Sparkles className="h-3.5 w-3.5" />
-                Your Neighborhood Pharmacy
-              </motion.span>
-              <motion.h1
-                className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-foreground"
-                variants={headlineContainerVariants}
-                initial="hidden"
-                animate="visible"
-              >
-                {["Personalized", "Care,"].map((word) => (
-                  <motion.span
-                    key={word}
-                    className="inline-block mr-[0.25em]"
-                    variants={wordRevealVariants}
-                  >
-                    {word}
-                  </motion.span>
-                ))}{" "}
+              <Sparkles className="h-3.5 w-3.5" />
+              Your Neighborhood Pharmacy
+            </motion.span>
+            <motion.h1
+              className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-foreground"
+              variants={headlineContainerVariants}
+              initial="hidden"
+              animate="visible"
+            >
+              {["Personalized", "Care,"].map((word) => (
                 <motion.span
-                  className="inline-block text-gradient-shimmer"
+                  key={word}
+                  className="inline-block mr-[0.25em]"
                   variants={wordRevealVariants}
                 >
-                  Expert Service
+                  {word}
                 </motion.span>
-              </motion.h1>
-              <motion.p
-                className="mt-6 text-lg md:text-xl text-muted-foreground max-w-xl"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.4, duration: 0.6 }}
+              ))}{" "}
+              <motion.span
+                className="inline-block text-gradient-shimmer"
+                variants={wordRevealVariants}
               >
-                Experience pharmacy care the way it should be — attentive,
-                personalized, and focused on your well-being. From custom
-                compounding to free delivery, we&apos;re here for you.
-              </motion.p>
-              <motion.div
-                className="mt-8 flex flex-col sm:flex-row gap-4"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.5, duration: 0.6 }}
-              >
-                <motion.div
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                >
-                  <Button asChild size="xl">
-                    <Link href="/patients/transfer-prescriptions">
-                      Transfer Prescription
-                      <ArrowRight className="h-5 w-5" />
-                    </Link>
-                  </Button>
-                </motion.div>
-                <motion.div
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                >
-                  <Button asChild size="xl" variant="outline">
-                    <Link href="/contact">
-                      <Phone className="h-5 w-5" />
-                      Consult a Pharmacist
-                    </Link>
-                  </Button>
-                </motion.div>
-              </motion.div>
-            </motion.div>
-
-            {/* Hero Visual */}
-            <motion.div
-              className="relative hidden lg:block"
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.4, duration: 0.7 }}
+                Expert Service
+              </motion.span>
+            </motion.h1>
+            <motion.p
+              className="mt-6 text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4, duration: 0.6 }}
             >
-              <motion.div style={{ y: heroImageY }}>
-                <motion.div
-                  className="aspect-square rounded-3xl overflow-hidden shadow-2xl border border-primary/10"
-                  animate={{ y: [0, -10, 0] }}
-                  transition={{
-                    duration: 6,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                  }}
-                >
-                  <video
-                    src="/images/hero-video.mp4"
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                    className="w-full h-full object-cover"
-                  />
-                </motion.div>
-              </motion.div>
-
-              {/* Floating badges */}
+              Experience pharmacy care the way it should be — attentive,
+              personalized, and focused on your well-being. From custom
+              compounding to free delivery, we&apos;re here for you.
+            </motion.p>
+            <motion.div
+              className="mt-8 flex flex-col sm:flex-row gap-4 justify-center"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5, duration: 0.6 }}
+            >
               <motion.div
-                className="absolute -top-4 -right-4 bg-card rounded-xl px-4 py-3 shadow-lg border border-border"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.8 }}
-                whileHover={{ scale: 1.05 }}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
               >
-                <div className="flex items-center gap-2">
-                  <div className="h-8 w-8 rounded-full bg-success/10 flex items-center justify-center">
-                    <Shield className="h-4 w-4 text-success" />
-                  </div>
-                  <div className="text-sm">
-                    <p className="font-semibold">HIPAA Compliant</p>
-                    <p className="text-muted-foreground text-xs">
-                      Secure & Private
-                    </p>
-                  </div>
-                </div>
+                <Button asChild size="xl">
+                  <Link href="/patients/transfer-prescriptions">
+                    Transfer Prescription
+                    <ArrowRight className="h-5 w-5" />
+                  </Link>
+                </Button>
               </motion.div>
-
               <motion.div
-                className="absolute -bottom-4 -left-4 bg-card rounded-xl px-4 py-3 shadow-lg border border-border"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 1 }}
-                whileHover={{ scale: 1.05 }}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
               >
-                <div className="flex items-center gap-2">
-                  <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center">
-                    <Truck className="h-4 w-4 text-primary" />
-                  </div>
-                  <div className="text-sm">
-                    <p className="font-semibold">Free Delivery</p>
-                    <p className="text-muted-foreground text-xs">
-                      Same-day available
-                    </p>
-                  </div>
-                </div>
+                <Button asChild size="xl" variant="outline">
+                  <Link href="/contact">
+                    <Phone className="h-5 w-5" />
+                    Consult a Pharmacist
+                  </Link>
+                </Button>
               </motion.div>
             </motion.div>
-          </div>
+          </motion.div>
+
+          {/* Hero Video */}
+          <motion.div
+            className="relative mx-auto mt-12 md:mt-16 max-w-5xl"
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.6, duration: 0.8, ease: "easeOut" }}
+          >
+            <div className="relative aspect-video rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl border border-primary/10 bg-black">
+              <video
+                src="/images/hero-video.mp4"
+                poster="/images/hero-video-poster.jpg"
+                controls
+                controlsList="nodownload noplaybackrate noremoteplayback"
+                disablePictureInPicture
+                preload="metadata"
+                playsInline
+                className="w-full h-full object-cover"
+              />
+            </div>
+
+            {/* Floating badges */}
+            <motion.div
+              className="hidden md:flex absolute -top-4 -right-4 bg-card rounded-xl px-4 py-3 shadow-lg border border-border items-center gap-2"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 1 }}
+              whileHover={{ scale: 1.05 }}
+            >
+              <div className="h-8 w-8 rounded-full bg-success/10 flex items-center justify-center">
+                <Shield className="h-4 w-4 text-success" />
+              </div>
+              <div className="text-sm text-left">
+                <p className="font-semibold">HIPAA Compliant</p>
+                <p className="text-muted-foreground text-xs">
+                  Secure & Private
+                </p>
+              </div>
+            </motion.div>
+
+            <motion.div
+              className="hidden md:flex absolute -bottom-4 -left-4 bg-card rounded-xl px-4 py-3 shadow-lg border border-border items-center gap-2"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 1.1 }}
+              whileHover={{ scale: 1.05 }}
+            >
+              <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center">
+                <Truck className="h-4 w-4 text-primary" />
+              </div>
+              <div className="text-sm text-left">
+                <p className="font-semibold">Free Delivery</p>
+                <p className="text-muted-foreground text-xs">
+                  Same-day available
+                </p>
+              </div>
+            </motion.div>
+          </motion.div>
         </div>
       </section>
 
