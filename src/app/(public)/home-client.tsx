@@ -16,7 +16,6 @@ import {
   Syringe,
   RefreshCw,
   ClipboardCheck,
-  Users,
   Shield,
   ArrowRight,
   Phone,
@@ -357,128 +356,6 @@ export default function HomeClient() {
         </div>
       </section>
 
-      {/* Quick Services */}
-      <Section variant="default" size="default">
-        <motion.div
-          className="text-center mb-12"
-          initial={{ opacity: 0, y: 30, filter: "blur(6px)" }}
-          whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
-        >
-          <div className="accent-line mx-auto mb-4" />
-          <h2 className="text-3xl md:text-4xl font-bold">
-            Everything You Need, All in One Place
-          </h2>
-          <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
-            From convenient pickup options to personalized medication
-            management, we offer comprehensive pharmacy services designed around
-            your needs.
-          </p>
-        </motion.div>
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {quickServices.map((service, index) => (
-            <Card
-              key={service.title}
-              icon={service.icon}
-              title={service.title}
-              description={service.description}
-              href={service.href}
-              variant="feature"
-              delay={index * 0.1}
-            />
-          ))}
-        </div>
-      </Section>
-
-      {/* For Patients */}
-      <Section variant="alt" size="default">
-        <motion.div
-          className="max-w-2xl mx-auto"
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-        >
-          <motion.div
-            className="card-base p-8 md:p-10 relative overflow-hidden group"
-            variants={itemVariants}
-            whileHover={{ y: -4 }}
-          >
-            <div className="absolute top-0 right-0 w-40 h-40 bg-primary/5 rounded-full blur-3xl group-hover:bg-primary/10 transition-colors duration-500" />
-            <motion.div
-              className="h-14 w-14 rounded-xl bg-primary flex items-center justify-center mb-6 shadow-glow"
-              whileHover={{ scale: 1.1, rotate: 5 }}
-            >
-              <Users className="h-7 w-7 text-primary-foreground" />
-            </motion.div>
-            <h3 className="text-2xl md:text-3xl font-bold">For Patients</h3>
-            <p className="mt-3 text-muted-foreground">
-              Whether you need prescription transfers, medication delivery, or
-              personalized pill packaging, we make managing your health simple
-              and convenient.
-            </p>
-            <ul className="mt-6 space-y-3">
-              {patientLinks.map((item, i) => (
-                <motion.li
-                  key={item.label}
-                  initial={{ opacity: 0, x: -10 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.1 }}
-                >
-                  <Link
-                    href={item.href}
-                    className="flex items-center gap-3 text-foreground hover:text-primary transition-colors group/link"
-                  >
-                    <ChevronRight className="h-4 w-4 text-primary transition-transform group-hover/link:translate-x-1" />
-                    {item.label}
-                  </Link>
-                </motion.li>
-              ))}
-            </ul>
-            <motion.div
-              className="mt-8"
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-            >
-              <Button asChild size="lg">
-                <Link href="/patients">Explore Patient Services</Link>
-              </Button>
-            </motion.div>
-          </motion.div>
-        </motion.div>
-      </Section>
-
-      {/* Stats / Trust Signals */}
-      <Section variant="default" size="sm">
-        <motion.div
-          className="grid grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12"
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-        >
-          {stats.map((stat) => (
-            <motion.div
-              key={stat.label}
-              className="text-center"
-              variants={itemVariants}
-              whileHover={{ scale: 1.05 }}
-              transition={{ type: "spring", stiffness: 300, damping: 20 }}
-            >
-              <p className="text-4xl md:text-5xl font-bold text-primary tracking-tight">
-                <AnimatedCounter target={stat.value} suffix={stat.suffix} />
-              </p>
-              <p className="mt-2 font-semibold text-foreground">{stat.label}</p>
-              <p className="mt-1 text-sm text-muted-foreground">
-                {stat.description}
-              </p>
-            </motion.div>
-          ))}
-        </motion.div>
-      </Section>
-
       {/* Testimonials — Marquee */}
       <section className="py-16 md:py-24 bg-section-alt overflow-hidden">
         <motion.div
@@ -567,6 +444,135 @@ export default function HomeClient() {
           </motion.div>
         </div>
       </section>
+
+      {/* Quick Services */}
+      <Section variant="default" size="default">
+        <motion.div
+          className="text-center mb-12"
+          initial={{ opacity: 0, y: 30, filter: "blur(6px)" }}
+          whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+        >
+          <div className="accent-line mx-auto mb-4" />
+          <h2 className="text-3xl md:text-4xl font-bold">
+            Everything You Need, All in One Place
+          </h2>
+          <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
+            From convenient pickup options to personalized medication
+            management, we offer comprehensive pharmacy services designed around
+            your needs.
+          </p>
+        </motion.div>
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {quickServices.map((service, index) => (
+            <Card
+              key={service.title}
+              icon={service.icon}
+              title={service.title}
+              description={service.description}
+              href={service.href}
+              variant="feature"
+              delay={index * 0.1}
+            />
+          ))}
+        </div>
+      </Section>
+
+      {/* For Patients */}
+      <Section variant="alt" size="default">
+        <motion.div
+          className="max-w-6xl mx-auto"
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+        >
+          <motion.div
+            className="card-base relative overflow-hidden group grid lg:grid-cols-2"
+            variants={itemVariants}
+            whileHover={{ y: -4 }}
+          >
+            <div className="absolute top-0 right-0 w-40 h-40 bg-primary/5 rounded-full blur-3xl group-hover:bg-primary/10 transition-colors duration-500 pointer-events-none" />
+
+            {/* Stock image — temporary until brand asset arrives */}
+            <div className="relative h-64 sm:h-80 lg:h-auto lg:min-h-[480px] order-first lg:order-none">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/images/for-patients-medications.jpg"
+                alt="Assorted prescription medications in blister packs"
+                className="absolute inset-0 h-full w-full object-cover"
+              />
+            </div>
+
+            <div className="relative p-8 md:p-10 lg:p-12 flex flex-col justify-center">
+              <h3 className="text-2xl md:text-3xl font-bold">For Patients</h3>
+              <p className="mt-3 text-muted-foreground">
+                Whether you need prescription transfers, medication delivery, or
+                personalized pill packaging, we make managing your health simple
+                and convenient.
+              </p>
+              <ul className="mt-6 space-y-3">
+                {patientLinks.map((item, i) => (
+                  <motion.li
+                    key={item.label}
+                    initial={{ opacity: 0, x: -10 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: i * 0.1 }}
+                  >
+                    <Link
+                      href={item.href}
+                      className="flex items-center gap-3 text-foreground hover:text-primary transition-colors group/link"
+                    >
+                      <ChevronRight className="h-4 w-4 text-primary transition-transform group-hover/link:translate-x-1" />
+                      {item.label}
+                    </Link>
+                  </motion.li>
+                ))}
+              </ul>
+              <motion.div
+                className="mt-8"
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                <Button asChild size="lg">
+                  <Link href="/patients">Explore Patient Services</Link>
+                </Button>
+              </motion.div>
+            </div>
+          </motion.div>
+        </motion.div>
+      </Section>
+
+      {/* Stats / Trust Signals */}
+      <Section variant="default" size="sm">
+        <motion.div
+          className="grid grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12"
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+        >
+          {stats.map((stat) => (
+            <motion.div
+              key={stat.label}
+              className="text-center"
+              variants={itemVariants}
+              whileHover={{ scale: 1.05 }}
+              transition={{ type: "spring", stiffness: 300, damping: 20 }}
+            >
+              <p className="text-4xl md:text-5xl font-bold text-primary tracking-tight">
+                <AnimatedCounter target={stat.value} suffix={stat.suffix} />
+              </p>
+              <p className="mt-2 font-semibold text-foreground">{stat.label}</p>
+              <p className="mt-1 text-sm text-muted-foreground">
+                {stat.description}
+              </p>
+            </motion.div>
+          ))}
+        </motion.div>
+      </Section>
 
       {/* FAQ Preview */}
       <Section variant="default" size="default">
