@@ -28,6 +28,7 @@ import { Section } from "@/components/shared/Section";
 import { Card } from "@/components/shared/Card";
 import { FAQ } from "@/components/shared/FAQ";
 import { CTA } from "@/components/shared/CTA";
+import { HeroVideoPlayer } from "@/components/home/HeroVideoPlayer";
 import { Button } from "@/components/ui/button";
 
 const quickServices = [
@@ -310,18 +311,11 @@ export default function HomeClient() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6, duration: 0.8, ease: "easeOut" }}
           >
-            <div className="relative aspect-video rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl border border-primary/10 bg-black">
-              <video
-                src="/images/hero-video.mp4"
-                poster="/images/hero-video-poster.jpg"
-                controls
-                controlsList="nodownload noplaybackrate noremoteplayback"
-                disablePictureInPicture
-                preload="metadata"
-                playsInline
-                className="w-full h-full object-cover"
-              />
-            </div>
+            <HeroVideoPlayer
+              src="/images/hero-video.mp4"
+              poster="/images/hero-video-poster.jpg"
+            />
+
 
             {/* Floating badges */}
             <motion.div
