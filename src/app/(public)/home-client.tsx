@@ -357,7 +357,7 @@ export default function HomeClient() {
       </section>
 
       {/* Testimonials marquee */}
-      <section className="py-16 md:py-24 bg-section-alt overflow-hidden">
+      <section className="py-16 md:py-24 bg-background overflow-hidden">
         <motion.div
           className="text-center mb-14 px-4"
           initial={{ opacity: 0, y: 30, filter: "blur(6px)" }}
