@@ -71,25 +71,6 @@ const timeline = [
   },
 ];
 
-const team = [
-  {
-    name: "Dr. Sarah Johnson, PharmD",
-    role: "Lead Pharmacist",
-    initials: "SJ",
-  },
-  {
-    name: "Dr. Michael Chen, PharmD",
-    role: "Clinical Pharmacist",
-    initials: "MC",
-  },
-  {
-    name: "Dr. Emily Rodriguez, PharmD",
-    role: "Compounding Specialist",
-    initials: "ER",
-  },
-  { name: "David Kim", role: "Pharmacy Manager", initials: "DK" },
-];
-
 export default function AboutClient() {
   return (
     <>
@@ -169,39 +150,8 @@ export default function AboutClient() {
         </div>
       </Section>
 
-      {/* Team */}
-      <Section variant="default" size="default">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold">Meet Our Team</h2>
-          <p className="mt-4 text-lg text-muted-foreground">
-            Our dedicated pharmacists and staff are here to serve you.
-          </p>
-        </div>
-        <div className="mb-8">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/images/team-group.jpg"
-            alt="Mountain View Pharmacy team"
-            className="w-full max-h-80 object-cover rounded-xl"
-          />
-        </div>
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {team.map((member) => (
-            <div key={member.name} className="card-base text-center p-6">
-              <div className="h-20 w-20 mx-auto rounded-full bg-primary flex items-center justify-center mb-4">
-                <span className="text-2xl font-bold text-primary-foreground">
-                  {member.initials}
-                </span>
-              </div>
-              <h3 className="font-semibold">{member.name}</h3>
-              <p className="text-sm text-muted-foreground">{member.role}</p>
-            </div>
-          ))}
-        </div>
-      </Section>
-
       {/* Timeline */}
-      <Section variant="alt" size="default">
+      <Section variant="default" size="default">
         <div className="text-center mb-12">
           <h2 className="text-3xl font-bold">Our Journey</h2>
           <p className="mt-4 text-lg text-muted-foreground">
