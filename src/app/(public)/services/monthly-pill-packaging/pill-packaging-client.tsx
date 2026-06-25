@@ -107,7 +107,7 @@ const faqs = [
   {
     question: "Can I still get my medications at different times?",
     answer:
-      "Absolutely! The packs are organized by time of day—morning, noon, evening, bedtime—whatever schedule works for you.",
+      "Absolutely! The packs are organized by time of day (morning, noon, evening, bedtime), whatever schedule works for you.",
   },
   {
     question: "What if my medications change?",

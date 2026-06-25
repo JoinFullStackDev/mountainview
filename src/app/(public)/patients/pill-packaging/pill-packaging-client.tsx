@@ -97,7 +97,7 @@ const benefits = [
   {
     icon: CalendarCheck,
     title: "Monthly Convenience",
-    description: "One pickup day, one delivery—everything synchronized.",
+    description: "One pickup day, one delivery, with everything synchronized.",
   },
   {
     icon: Package,
@@ -110,7 +110,7 @@ const faqs = [
   {
     question: "What if my medications change mid-month?",
     answer:
-      "No problem! We can adjust your pill packs at any time. Just let us know about the change and we'll prepare updated packs right away—usually the same day.",
+      "No problem! We can adjust your pill packs at any time. Just let us know about the change and we'll prepare updated packs right away, usually the same day.",
   },
   {
     question: "Can vitamins and supplements be included?",

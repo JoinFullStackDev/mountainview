@@ -268,7 +268,7 @@ export default function HomeClient() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4, duration: 0.6 }}
             >
-              Experience pharmacy care the way it should be — attentive,
+              Experience pharmacy care the way it should be: attentive,
               personalized, and focused on your well-being. From custom
               compounding to free delivery, we&apos;re here for you.
             </motion.p>
@@ -356,7 +356,7 @@ export default function HomeClient() {
         </div>
       </section>
 
-      {/* Testimonials — Marquee */}
+      {/* Testimonials marquee */}
       <section className="py-16 md:py-24 bg-section-alt overflow-hidden">
         <motion.div
           className="text-center mb-14 px-4"
@@ -375,7 +375,7 @@ export default function HomeClient() {
         </motion.div>
 
         <div className="space-y-10">
-          {/* Row 1 — scrolls left */}
+          {/* Row 1 scrolls left */}
           <motion.div
             className="marquee-mask marquee-container"
             initial={{ opacity: 0, y: 30 }}
@@ -399,16 +399,16 @@ export default function HomeClient() {
                   </div>
                   <blockquote className="text-lg md:text-xl italic leading-relaxed text-foreground/90">
                     &ldquo;{t.quote}&rdquo;
-                    <span className="not-italic font-semibold text-primary ml-2">
-                      &mdash; {t.author}
-                    </span>
                   </blockquote>
+                  <p className="mt-3 font-semibold text-primary">
+                    {t.author}
+                  </p>
                 </div>
               ))}
             </div>
           </motion.div>
 
-          {/* Row 2 — scrolls right */}
+          {/* Row 2 scrolls right */}
           <motion.div
             className="marquee-mask marquee-container"
             initial={{ opacity: 0, y: 30 }}
@@ -434,10 +434,10 @@ export default function HomeClient() {
                     </div>
                     <blockquote className="text-lg md:text-xl italic leading-relaxed text-foreground/90">
                       &ldquo;{t.quote}&rdquo;
-                      <span className="not-italic font-semibold text-primary ml-2">
-                        &mdash; {t.author}
-                      </span>
                     </blockquote>
+                    <p className="mt-3 font-semibold text-primary">
+                      {t.author}
+                    </p>
                   </div>
                 ))}
             </div>
@@ -495,7 +495,7 @@ export default function HomeClient() {
           >
             <div className="absolute top-0 right-0 w-40 h-40 bg-primary/5 rounded-full blur-3xl group-hover:bg-primary/10 transition-colors duration-500 pointer-events-none" />
 
-            {/* Stock image — temporary until brand asset arrives */}
+            {/* Stock image, temporary until brand asset arrives */}
             <div className="relative h-64 sm:h-80 lg:h-auto lg:min-h-[480px] order-first lg:order-none">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img

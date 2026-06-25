@@ -21,7 +21,7 @@ const helpItems = [
     icon: CheckCircle,
     title: "Everything Prepared and Ready",
     description:
-      "Your medications are reviewed, prepared, and waiting for you—no more waiting at the pharmacy.",
+      "Your medications are reviewed, prepared, and waiting for you, with no more waiting at the pharmacy.",
   },
   {
     icon: Clock,
@@ -63,7 +63,7 @@ const benefits = [
   {
     icon: Clock,
     title: "Less Waiting",
-    description: "Everything is prepared in advance—just pick up and go.",
+    description: "Everything is prepared in advance. Just pick up and go.",
   },
   {
     icon: RefreshCw,
@@ -133,7 +133,7 @@ export default function MedSyncClient() {
       benefits={benefits}
       faqs={faqs}
       ctaTitle="Ready to Simplify Your Refills?"
-      ctaDescription="Enroll in medication synchronization today—it's free and takes just a few minutes to set up."
+      ctaDescription="Enroll in medication synchronization today. It's free and takes just a few minutes to set up."
       images={[{ src: "/images/pharmacy-interior-1.jpg", alt: "Pharmacy interior" }]}
       imagesSectionTitle="Your Neighborhood Pharmacy"
       imagesSectionDescription="Medication synchronization is just one of the ways we make managing your health easier. Stop by or give us a call to get started."

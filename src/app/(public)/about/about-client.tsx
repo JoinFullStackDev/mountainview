@@ -76,7 +76,7 @@ export default function AboutClient() {
     <>
       <PageHero
         title="About Mountain View Pharmacy"
-        description="For over 60 years, we've been more than just a pharmacy — we're a trusted partner in our community's health and well-being."
+        description="For over 60 years, we've been more than just a pharmacy. We're a trusted partner in our community's health and well-being."
         breadcrumbs={[{ name: "About" }]}
         badge="Our Story"
       />
@@ -104,7 +104,7 @@ export default function AboutClient() {
             <p className="mt-4 text-muted-foreground">
               Today, we offer a comprehensive range of services including custom
               compounding, medication synchronization, pill packaging,
-              immunizations, and free home delivery — all designed to make
+              immunizations, and free home delivery, all designed to make
               managing your health easier.
             </p>
           </div>

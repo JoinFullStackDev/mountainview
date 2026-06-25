@@ -20,7 +20,7 @@ const approachItems = [
     icon: FileCheck,
     title: "Direct Billing to Insurance",
     description:
-      "We bill your workers' compensation insurance directly—no upfront costs for you.",
+      "We bill your workers' compensation insurance directly, so there are no upfront costs for you.",
   },
   {
     icon: Users,
@@ -86,7 +86,7 @@ const steps = [
   {
     title: "Fill Your Prescriptions",
     description:
-      "Your medications are filled and ready—with no out-of-pocket cost to you.",
+      "Your medications are filled and ready, with no out-of-pocket cost to you.",
   },
   {
     title: "Ongoing Support",

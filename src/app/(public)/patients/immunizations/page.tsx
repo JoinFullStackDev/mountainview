@@ -6,7 +6,7 @@ export const metadata: Metadata = buildMetadata({
   path: "/patients/immunizations",
   title: "Walk-In Immunizations in Bountiful, UT",
   description:
-    "Get flu, COVID-19, shingles, pneumonia, RSV, and Tdap vaccines from licensed pharmacists at Mountain View Pharmacy. Walk-ins welcome \u2014 most insurance accepted.",
+    "Get flu, COVID-19, shingles, pneumonia, RSV, and Tdap vaccines from licensed pharmacists at Mountain View Pharmacy. Walk-ins welcome. Most insurance accepted.",
   keywords: [
     "walk-in immunizations Bountiful",
     "pharmacy vaccines Utah",

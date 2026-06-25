@@ -165,7 +165,7 @@ export default function SupplementsClient() {
   return (
     <ServicePageTemplate
       title="Supplements You Can Trust"
-      description="A pharmacist-curated selection focused on quality, purity, and efficacy—with guidance to match your goals."
+      description="A pharmacist-curated selection focused on quality, purity, and efficacy, with guidance to match your goals."
       badge="Supplements"
       helpItems={helpItems}
       helpSectionTitle="Why Choose Our Supplements"
