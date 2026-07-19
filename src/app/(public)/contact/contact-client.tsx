@@ -104,9 +104,8 @@ export default function ContactClient() {
                 <div>
                   <h3 className="font-semibold">Hours</h3>
                   <div className="text-muted-foreground space-y-1">
-                    <p>Monday – Friday: 9:00 AM – 7:00 PM</p>
-                    <p>Saturday: 9:00 AM – 5:00 PM</p>
-                    <p>Sunday: Closed</p>
+                    <p>Monday – Friday: 9:00 AM – 6:00 PM</p>
+                    <p>Saturday – Sunday: Closed</p>
                   </div>
                 </div>
               </div>
