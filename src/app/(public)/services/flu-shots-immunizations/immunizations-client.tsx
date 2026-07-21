@@ -63,7 +63,7 @@ const helpItems = [
     icon: Clock,
     title: "Convenient Access",
     description:
-      "No appointment needed for most vaccines—walk in during pharmacy hours.",
+      "No appointment needed for most vaccines. Walk in during pharmacy hours.",
   },
 ];
 
@@ -160,7 +160,7 @@ export default function ImmunizationsClient() {
   return (
     <ServicePageTemplate
       title="Vaccinations Made Easy"
-      description="Protect yourself and your loved ones with trusted immunization services—seasonal and routine."
+      description="Protect yourself and your loved ones with trusted immunization services, both seasonal and routine."
       badge="Immunizations"
       helpItems={helpItems}
       helpSectionTitle="Why Get Vaccinated"

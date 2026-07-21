@@ -52,7 +52,7 @@ interface UsersClientProps {
 }
 
 function formatDate(value: string | null): string {
-  if (!value) return "—";
+  if (!value) return "-";
   try {
     return new Date(value).toLocaleString(undefined, {
       dateStyle: "medium",
@@ -273,7 +273,7 @@ export function UsersClient({ currentUserId, initialUsers }: UsersClientProps) {
                       </div>
                     </TableCell>
                     <TableCell className="text-muted-foreground">
-                      {user.fullName ?? "—"}
+                      {user.fullName ?? "-"}
                     </TableCell>
                     <TableCell>
                       <Select

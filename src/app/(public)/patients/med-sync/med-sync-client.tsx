@@ -66,7 +66,7 @@ const benefits = [
   {
     icon: CheckCircle,
     title: "Total Convenience",
-    description: "One trip, one day, all your medications—every single month.",
+    description: "One trip, one day, all your medications, every single month.",
   },
   {
     icon: Clock,

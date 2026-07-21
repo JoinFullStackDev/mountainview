@@ -7,7 +7,6 @@ import {
   useInView,
   useMotionValue,
   useTransform,
-  useScroll,
   animate,
 } from "framer-motion";
 import {
@@ -17,7 +16,6 @@ import {
   Syringe,
   RefreshCw,
   ClipboardCheck,
-  Users,
   Shield,
   ArrowRight,
   Phone,
@@ -29,6 +27,7 @@ import { Section } from "@/components/shared/Section";
 import { Card } from "@/components/shared/Card";
 import { FAQ } from "@/components/shared/FAQ";
 import { CTA } from "@/components/shared/CTA";
+import { HeroVideoPlayer } from "@/components/home/HeroVideoPlayer";
 import { Button } from "@/components/ui/button";
 
 const quickServices = [
@@ -338,8 +337,6 @@ function AnimatedCounter({
 }
 
 export default function HomeClient() {
-  const { scrollY } = useScroll();
-  const heroImageY = useTransform(scrollY, [0, 600], [0, 60]);
   const [showAllTestimonials, setShowAllTestimonials] = useState(false);
 
   return (
@@ -368,155 +365,135 @@ export default function HomeClient() {
           transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
         />
 
-        <div className="container-wide py-20 md:py-28 lg:py-36 relative">
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-            <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.7, ease: "easeOut" }}
+        <div className="container-wide pt-20 md:pt-28 lg:pt-32 pb-16 md:pb-20 lg:pb-24 relative">
+          <motion.div
+            className="mx-auto max-w-4xl text-center"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, ease: "easeOut" }}
+          >
+            <motion.span
+              className="badge-primary mb-6 inline-flex items-center gap-1.5"
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.2 }}
             >
-              <motion.span
-                className="badge-primary mb-4 inline-flex items-center gap-1.5"
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.2 }}
-              >
-                <Sparkles className="h-3.5 w-3.5" />
-                Your Neighborhood Pharmacy
-              </motion.span>
-              <motion.h1
-                className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-foreground"
-                variants={headlineContainerVariants}
-                initial="hidden"
-                animate="visible"
-              >
-                {["Personalized", "Care,"].map((word) => (
-                  <motion.span
-                    key={word}
-                    className="inline-block mr-[0.25em]"
-                    variants={wordRevealVariants}
-                  >
-                    {word}
-                  </motion.span>
-                ))}{" "}
+              <Sparkles className="h-3.5 w-3.5" />
+              Your Neighborhood Pharmacy
+            </motion.span>
+            <motion.h1
+              className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-foreground"
+              variants={headlineContainerVariants}
+              initial="hidden"
+              animate="visible"
+            >
+              {["Personalized", "Care,"].map((word) => (
                 <motion.span
-                  className="inline-block text-gradient-shimmer"
+                  key={word}
+                  className="inline-block mr-[0.25em]"
                   variants={wordRevealVariants}
                 >
-                  Expert Service
+                  {word}
                 </motion.span>
-              </motion.h1>
-              <motion.p
-                className="mt-6 text-lg md:text-xl text-muted-foreground max-w-xl"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.4, duration: 0.6 }}
+              ))}{" "}
+              <motion.span
+                className="inline-block text-gradient-shimmer"
+                variants={wordRevealVariants}
               >
-                Experience pharmacy care the way it should be — attentive,
-                personalized, and focused on your well-being. From custom
-                compounding to free delivery, we&apos;re here for you.
-              </motion.p>
-              <motion.div
-                className="mt-8 flex flex-col sm:flex-row gap-4"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.5, duration: 0.6 }}
-              >
-                <motion.div
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                >
-                  <Button asChild size="xl">
-                    <Link href="/patients/transfer-prescriptions">
-                      Transfer Prescription
-                      <ArrowRight className="h-5 w-5" />
-                    </Link>
-                  </Button>
-                </motion.div>
-                <motion.div
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                >
-                  <Button asChild size="xl" variant="outline">
-                    <Link href="/contact">
-                      <Phone className="h-5 w-5" />
-                      Consult a Pharmacist
-                    </Link>
-                  </Button>
-                </motion.div>
-              </motion.div>
-            </motion.div>
-
-            {/* Hero Visual */}
-            <motion.div
-              className="relative hidden lg:block"
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.4, duration: 0.7 }}
+                Expert Service
+              </motion.span>
+            </motion.h1>
+            <motion.p
+              className="mt-6 text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4, duration: 0.6 }}
             >
-              <motion.div style={{ y: heroImageY }}>
-                <motion.div
-                  className="aspect-square rounded-3xl overflow-hidden shadow-2xl border border-primary/10"
-                  animate={{ y: [0, -10, 0] }}
-                  transition={{
-                    duration: 6,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                  }}
-                >
-                  <video
-                    src="/images/hero-video.mp4"
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                    className="w-full h-full object-cover"
-                  />
-                </motion.div>
-              </motion.div>
-
-              {/* Floating badges */}
+              Experience pharmacy care the way it should be: attentive,
+              personalized, and focused on your well-being. From custom
+              compounding to free delivery, we&apos;re here for you.
+            </motion.p>
+            <motion.div
+              className="mt-8 flex flex-col sm:flex-row gap-4 justify-center"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5, duration: 0.6 }}
+            >
               <motion.div
-                className="absolute -top-4 -right-4 bg-card rounded-xl px-4 py-3 shadow-lg border border-border"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.8 }}
-                whileHover={{ scale: 1.05 }}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
               >
-                <div className="flex items-center gap-2">
-                  <div className="h-8 w-8 rounded-full bg-success/10 flex items-center justify-center">
-                    <Shield className="h-4 w-4 text-success" />
-                  </div>
-                  <div className="text-sm">
-                    <p className="font-semibold">HIPAA Compliant</p>
-                    <p className="text-muted-foreground text-xs">
-                      Secure & Private
-                    </p>
-                  </div>
-                </div>
+                <Button asChild size="xl">
+                  <Link href="/patients/transfer-prescriptions">
+                    Transfer Prescription
+                    <ArrowRight className="h-5 w-5" />
+                  </Link>
+                </Button>
               </motion.div>
-
               <motion.div
-                className="absolute -bottom-4 -left-4 bg-card rounded-xl px-4 py-3 shadow-lg border border-border"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 1 }}
-                whileHover={{ scale: 1.05 }}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
               >
-                <div className="flex items-center gap-2">
-                  <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center">
-                    <Truck className="h-4 w-4 text-primary" />
-                  </div>
-                  <div className="text-sm">
-                    <p className="font-semibold">Free Delivery</p>
-                    <p className="text-muted-foreground text-xs">
-                      Same-day available
-                    </p>
-                  </div>
-                </div>
+                <Button asChild size="xl" variant="outline">
+                  <Link href="/contact">
+                    <Phone className="h-5 w-5" />
+                    Consult a Pharmacist
+                  </Link>
+                </Button>
               </motion.div>
             </motion.div>
-          </div>
+          </motion.div>
+
+          {/* Hero Video */}
+          <motion.div
+            className="relative mx-auto mt-12 md:mt-16 max-w-5xl"
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.6, duration: 0.8, ease: "easeOut" }}
+          >
+            <HeroVideoPlayer
+              src="/images/hero-video.mp4"
+              poster="/images/hero-video-poster.jpg"
+            />
+
+
+            {/* Floating badges */}
+            <motion.div
+              className="hidden md:flex absolute -top-4 -right-4 bg-card rounded-xl px-4 py-3 shadow-lg border border-border items-center gap-2"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 1 }}
+              whileHover={{ scale: 1.05 }}
+            >
+              <div className="h-8 w-8 rounded-full bg-success/10 flex items-center justify-center">
+                <Shield className="h-4 w-4 text-success" />
+              </div>
+              <div className="text-sm text-left">
+                <p className="font-semibold">HIPAA Compliant</p>
+                <p className="text-muted-foreground text-xs">
+                  Secure & Private
+                </p>
+              </div>
+            </motion.div>
+
+            <motion.div
+              className="hidden md:flex absolute -bottom-4 -left-4 bg-card rounded-xl px-4 py-3 shadow-lg border border-border items-center gap-2"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 1.1 }}
+              whileHover={{ scale: 1.05 }}
+            >
+              <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center">
+                <Truck className="h-4 w-4 text-primary" />
+              </div>
+              <div className="text-sm text-left">
+                <p className="font-semibold">Free Delivery</p>
+                <p className="text-muted-foreground text-xs">
+                  Same-day available
+                </p>
+              </div>
+            </motion.div>
+          </motion.div>
         </div>
       </section>
 
@@ -557,58 +534,65 @@ export default function HomeClient() {
       {/* For Patients */}
       <Section variant="alt" size="default">
         <motion.div
-          className="max-w-2xl mx-auto"
+          className="max-w-6xl mx-auto"
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
         >
           <motion.div
-            className="card-base p-8 md:p-10 relative overflow-hidden group"
+            className="card-base relative overflow-hidden group grid lg:grid-cols-2"
             variants={itemVariants}
             whileHover={{ y: -4 }}
           >
-            <div className="absolute top-0 right-0 w-40 h-40 bg-primary/5 rounded-full blur-3xl group-hover:bg-primary/10 transition-colors duration-500" />
-            <motion.div
-              className="h-14 w-14 rounded-xl bg-primary flex items-center justify-center mb-6 shadow-glow"
-              whileHover={{ scale: 1.1, rotate: 5 }}
-            >
-              <Users className="h-7 w-7 text-primary-foreground" />
-            </motion.div>
-            <h3 className="text-2xl md:text-3xl font-bold">For Patients</h3>
-            <p className="mt-3 text-muted-foreground">
-              Whether you need prescription transfers, medication delivery, or
-              personalized pill packaging, we make managing your health simple
-              and convenient.
-            </p>
-            <ul className="mt-6 space-y-3">
-              {patientLinks.map((item, i) => (
-                <motion.li
-                  key={item.label}
-                  initial={{ opacity: 0, x: -10 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.1 }}
-                >
-                  <Link
-                    href={item.href}
-                    className="flex items-center gap-3 text-foreground hover:text-primary transition-colors group/link"
+            <div className="absolute top-0 right-0 w-40 h-40 bg-primary/5 rounded-full blur-3xl group-hover:bg-primary/10 transition-colors duration-500 pointer-events-none" />
+
+            {/* Stock image, temporary until brand asset arrives */}
+            <div className="relative h-64 sm:h-80 lg:h-auto lg:min-h-[480px] order-first lg:order-none">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/images/for-patients-medications.jpg"
+                alt="Assorted prescription medications in blister packs"
+                className="absolute inset-0 h-full w-full object-cover"
+              />
+            </div>
+
+            <div className="relative p-8 md:p-10 lg:p-12 flex flex-col justify-center">
+              <h3 className="text-2xl md:text-3xl font-bold">For Patients</h3>
+              <p className="mt-3 text-muted-foreground">
+                Whether you need prescription transfers, medication delivery, or
+                personalized pill packaging, we make managing your health simple
+                and convenient.
+              </p>
+              <ul className="mt-6 space-y-3">
+                {patientLinks.map((item, i) => (
+                  <motion.li
+                    key={item.label}
+                    initial={{ opacity: 0, x: -10 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: i * 0.1 }}
                   >
-                    <ChevronRight className="h-4 w-4 text-primary transition-transform group-hover/link:translate-x-1" />
-                    {item.label}
-                  </Link>
-                </motion.li>
-              ))}
-            </ul>
-            <motion.div
-              className="mt-8"
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-            >
-              <Button asChild size="lg">
-                <Link href="/patients">Explore Patient Services</Link>
-              </Button>
-            </motion.div>
+                    <Link
+                      href={item.href}
+                      className="flex items-center gap-3 text-foreground hover:text-primary transition-colors group/link"
+                    >
+                      <ChevronRight className="h-4 w-4 text-primary transition-transform group-hover/link:translate-x-1" />
+                      {item.label}
+                    </Link>
+                  </motion.li>
+                ))}
+              </ul>
+              <motion.div
+                className="mt-8"
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                <Button asChild size="lg">
+                  <Link href="/patients">Explore Patient Services</Link>
+                </Button>
+              </motion.div>
+            </div>
           </motion.div>
         </motion.div>
       </Section>

@@ -90,7 +90,7 @@ export default function PatientsClient() {
           <div className="text-center lg:text-left">
             <h2 className="text-3xl font-bold">Why Choose Mountain View?</h2>
             <p className="mt-4 text-lg text-muted-foreground">
-              We&apos;re not just a pharmacy — we&apos;re your health partner.
+              We&apos;re not just a pharmacy. We&apos;re your health partner.
               Our team of dedicated pharmacists takes the time to understand
               your needs and provide personalized care that goes beyond filling
               prescriptions.
