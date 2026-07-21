@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import {
   motion,
@@ -87,39 +87,178 @@ const stats = [
 const testimonials = [
   {
     quote:
-      "Always a pleasure to shop here, Staff is friendly and knowledgeable and always makes sure I leave with the best possible product! Special shout out to Tom and Jasmine for their great attitudes and helpfulness!",
-    author: "Zachary W.",
+      "Thank Kathleen & the crew! You guys are so awesome. They got everything all the way up to Park City for me before our Baja spearfishing trip. Really appreciate all the help from everyone!",
+    author: "David Stevens",
     role: "Google Review",
+    tags: ["📦 Shipping", "⭐ Customer Service"],
   },
   {
     quote:
-      "Thank you for your amazing service. I had a prescription delivered with the wrong applicator, I called the pharmacist and let them know. They sent me a new prescription no problem. 10/10 customer service.",
-    author: "Sydney M.",
+      "I’ve just started using Mountain View Pharmacy, but everyone I’ve interacted with has been wonderful. Hunter went above and beyond helping me through the entire process and made everything incredibly easy.",
+    author: "Ginger Nielsen",
     role: "Google Review",
+    tags: ["⭐ Customer Service"],
   },
   {
     quote:
-      "Shelby is amazing! She is joyful and polite, fast, no nonsense, gets it done for you. Also I love this pharmacy, haven't had one issue and you get your prescription fast. They have it figured out.",
-    author: "Shanda H.",
+      "Mountain View Pharmacy was excellent with my prescription. They shipped it the same day they received it, and it arrived the very next day. They answered all of my questions, and I couldn’t be happier with the service.",
+    author: "Carole Shaughnessy",
     role: "Google Review",
+    tags: ["📦 Shipping", "📞 Quick Response"],
   },
   {
     quote:
-      "I talked to a technician named Shelby and I've never had such an easy experience on the phone before. I was refilling my tirzepatide and it was the smoothest experience - took 5 minutes, she was patient and kind.",
-    author: "Caiden G.",
+      "Every member of the staff is professional, courteous, and always on top of their game. Since I live in Tremonton and can’t drive yet, their delivery service has meant everything to me.",
+    author: "Bethanie Hajek",
     role: "Google Review",
+    tags: ["🚚 Fast Delivery"],
   },
   {
     quote:
-      "I called at 9am, which I realized was probably going to be a very busy time. They answered in under 2 minutes, ran my prescription to make sure they had all necessary information and had me 100% satisfied in 2 more minutes.",
-    author: "Emily T.",
+      "They answered my call in under two minutes, verified everything with my prescription, and had me completely taken care of just a couple minutes later. Outstanding customer service.",
+    author: "Emily Taylor",
     role: "Google Review",
+    tags: ["📞 Quick Response", "⭐ Customer Service"],
   },
   {
     quote:
-      "Mountain View Pharmacy has done an excellent job filling my prescriptions and delivering quickly! Shelby was so kind I could hear her smile! The call ended with me smiling too!",
-    author: "Tena H.",
+      "Excellent pharmacy with friendly, knowledgeable staff, fast service, and convenient delivery. Prescriptions are filled quickly, and the team is always helpful, professional, and reliable.",
+    author: "Kipp Stock",
     role: "Google Review",
+    tags: ["🚚 Fast Delivery", "⭐ Customer Service"],
+  },
+  {
+    quote:
+      "Angel and the pharmacist were incredibly helpful and efficient. They’re knowledgeable, answer every question politely, and have been wonderful to work with.",
+    author: "Trudi Lupus",
+    role: "Google Review",
+    tags: ["👩‍⚕️ Knowledgeable Pharmacists"],
+  },
+  {
+    quote:
+      "I’ve had lots of questions about my medications, and the pharmacists have always been patient, helpful, and willing to take the time to explain everything. They’re friendly, knowledgeable, and incredibly fast.",
+    author: "Vonell Hatch",
+    role: "Google Review",
+    tags: ["👩‍⚕️ Knowledgeable Pharmacists", "📞 Quick Response"],
+  },
+  {
+    quote:
+      "Fast, friendly, and professional service. Great customer service and always quick to get prescriptions sent out the same day.",
+    author: "Jeanel Russell",
+    role: "Google Review",
+    tags: ["📦 Shipping", "📞 Quick Response"],
+  },
+  {
+    quote:
+      "I received my prescription with the wrong applicator, called the pharmacy, and they immediately fixed the issue by sending a replacement. 10/10 customer service.",
+    author: "Sydney Matthews",
+    role: "Google Review",
+    tags: ["⭐ Customer Service", "📦 Shipping"],
+  },
+  {
+    quote:
+      "Mountain View Pharmacy consistently fills my prescriptions quickly and delivers them fast. Shelby was kind, efficient, and had me smiling by the end of the call.",
+    author: "Tena Hampton",
+    role: "Google Review",
+    tags: ["🚚 Fast Delivery", "⭐ Customer Service"],
+  },
+  {
+    quote:
+      "Refilling my tirzepatide took less than five minutes. Shelby was patient, kind, and made the entire process incredibly smooth.",
+    author: "Caiden Garcia",
+    role: "Google Review",
+    tags: ["💉 GLP-1 / Tirzepatide", "📞 Quick Response"],
+  },
+  {
+    quote:
+      "Dave went above and beyond helping me solve a prescription problem. Without his help, I would have had to wait another two weeks. Absolutely amazing service.",
+    author: "William Hensley",
+    role: "Google Review",
+    tags: ["⭐ Customer Service"],
+  },
+  {
+    quote:
+      "This pharmacy is incredible. The customer service is top tier. Tavar was extremely helpful and took care of everything I needed.",
+    author: "Philip Heywood",
+    role: "Google Review",
+    tags: ["⭐ Customer Service"],
+  },
+  {
+    quote:
+      "Shelby and the entire team are top notch. They’re great at communicating and offer excellent prescription delivery options.",
+    author: "Shaun Syphus",
+    role: "Google Review",
+    tags: ["🚚 Fast Delivery", "⭐ Customer Service"],
+  },
+  {
+    quote:
+      "Shelby is amazing—fast, joyful, polite, and gets everything taken care of. I love this pharmacy and have never had a single issue.",
+    author: "Shanda Housley",
+    role: "Google Review",
+    tags: ["⭐ Customer Service", "📞 Quick Response"],
+  },
+  {
+    quote:
+      "Shelby answered quickly, was friendly and professional, and my prescription was ready within 30 minutes. The pricing was great too.",
+    author: "Chris Battrick",
+    role: "Google Review",
+    tags: ["📞 Quick Response", "⭐ Customer Service"],
+  },
+  {
+    quote:
+      "Kaitlyn was incredibly kind and thorough. Every technician and pharmacist I’ve worked with has been amazing.",
+    author: "Elein Sutherland",
+    role: "Google Review",
+    tags: ["👩‍⚕️ Knowledgeable Pharmacists"],
+  },
+  {
+    quote:
+      "Cora resolved my billing concern in less than two minutes. It was refreshing to talk to a real person who solved the issue so quickly.",
+    author: "Ryan M.",
+    role: "Google Review",
+    tags: ["📞 Quick Response", "⭐ Customer Service"],
+  },
+  {
+    quote:
+      "Katelyn was incredibly helpful and kind. I’d choose this pharmacy again based solely on my interaction with her.",
+    author: "Kim Wright",
+    role: "Google Review",
+    tags: ["⭐ Customer Service"],
+  },
+  {
+    quote:
+      "Whether I pick up inside, use the drive-thru, or have prescriptions delivered, Mountain View Pharmacy always does an outstanding job. I’ve never had a better pharmacy experience.",
+    author: "Rachel M. Barker",
+    role: "Google Review",
+    tags: ["🚗 Drive-Thru", "🚚 Fast Delivery"],
+  },
+  {
+    quote:
+      "I can’t say enough amazing things about Mountain View Pharmacy. They always go above and beyond, taking extra time to answer questions about dosage and ingredients while making sure I understand everything.",
+    author: "Pinetrees & Poppies",
+    role: "Google Review",
+    tags: ["👩‍⚕️ Knowledgeable Pharmacists"],
+  },
+  {
+    quote:
+      "Sara made my experience fantastic. She took the time to explain everything clearly and genuinely made me feel cared for.",
+    author: "Sawyer Kauffman",
+    role: "Google Review",
+    tags: ["👩‍⚕️ Knowledgeable Pharmacists", "⭐ Customer Service"],
+  },
+  {
+    quote:
+      "First time using this pharmacy and Katelyn was amazing. She answered every question thoroughly—even better than my doctor—and immediately put me at ease.",
+    author: "Becca Lou",
+    role: "Google Review",
+    tags: ["👩‍⚕️ Knowledgeable Pharmacists"],
+  },
+  {
+    quote:
+      "I’ve been using Mountain View Pharmacy for over three years for both my family and my business. If I could give them 10 stars, I would. Their level of service is outstanding.",
+    author: "Leslie Olsen",
+    role: "Google Review",
+    tags: ["⭐ Customer Service"],
   },
 ];
 
@@ -201,6 +340,7 @@ function AnimatedCounter({
 export default function HomeClient() {
   const { scrollY } = useScroll();
   const heroImageY = useTransform(scrollY, [0, 600], [0, 60]);
+  const [showAllTestimonials, setShowAllTestimonials] = useState(false);
 
   return (
     <>
@@ -502,10 +642,10 @@ export default function HomeClient() {
         </motion.div>
       </Section>
 
-      {/* Testimonials — Marquee */}
-      <section className="py-16 md:py-24 bg-section-alt overflow-hidden">
+      {/* Testimonials */}
+      <section className="py-16 md:py-24 bg-section-alt">
         <motion.div
-          className="text-center mb-14 px-4"
+          className="text-center mb-12 px-4"
           initial={{ opacity: 0, y: 30, filter: "blur(6px)" }}
           whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
           viewport={{ once: true }}
@@ -516,78 +656,76 @@ export default function HomeClient() {
             What Our Community Says
           </h2>
           <p className="mt-4 text-lg text-muted-foreground">
-            Real reviews from patients who trust Mountain View Pharmacy.
+            Real 5-star Google reviews from patients who trust Mountain View
+            Pharmacy.
           </p>
         </motion.div>
 
-        <div className="space-y-10">
-          {/* Row 1 — scrolls left */}
-          <motion.div
-            className="marquee-mask marquee-container"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-          >
-            <div className="animate-marquee flex w-max">
-              {[...testimonials, ...testimonials].map((t, i) => (
-                <div
-                  key={`r1-${i}`}
-                  className="flex-shrink-0 w-[420px] md:w-[520px] px-5"
-                >
-                  <div className="flex gap-0.5 mb-3">
-                    {Array.from({ length: 5 }).map((_, s) => (
+        <div className="container-wide">
+          <div className="columns-1 gap-6 md:columns-2 xl:columns-3">
+            {testimonials.map((testimonial, index) => (
+              <motion.article
+                key={testimonial.author}
+                className={`card-base mb-6 break-inside-avoid p-6 ${
+                  !showAllTestimonials && index >= 9 ? "hidden" : "inline-block w-full"
+                }`}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.15 }}
+                transition={{ duration: 0.4, delay: (index % 3) * 0.06 }}
+                whileHover={{ y: -4 }}
+              >
+                <div className="mb-4 flex items-center justify-between gap-4">
+                  <div className="flex gap-0.5" aria-label="5 out of 5 stars">
+                    {Array.from({ length: 5 }).map((_, starIndex) => (
                       <Star
-                        key={s}
+                        key={starIndex}
                         className="h-4 w-4 fill-warning text-warning"
+                        aria-hidden="true"
                       />
                     ))}
                   </div>
-                  <blockquote className="text-lg md:text-xl italic leading-relaxed text-foreground/90">
-                    &ldquo;{t.quote}&rdquo;
-                    <span className="not-italic font-semibold text-primary ml-2">
-                      &mdash; {t.author}
-                    </span>
-                  </blockquote>
+                  <span className="text-xs font-medium text-muted-foreground">
+                    Google Review
+                  </span>
                 </div>
-              ))}
-            </div>
-          </motion.div>
 
-          {/* Row 2 — scrolls right */}
-          <motion.div
-            className="marquee-mask marquee-container"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.15 }}
-          >
-            <div className="animate-marquee-reverse flex w-max">
-              {[...testimonials, ...testimonials]
-                .reverse()
-                .map((t, i) => (
-                  <div
-                    key={`r2-${i}`}
-                    className="flex-shrink-0 w-[420px] md:w-[520px] px-5"
-                  >
-                    <div className="flex gap-0.5 mb-3">
-                      {Array.from({ length: 5 }).map((_, s) => (
-                        <Star
-                          key={s}
-                          className="h-4 w-4 fill-warning text-warning"
-                        />
-                      ))}
-                    </div>
-                    <blockquote className="text-lg md:text-xl italic leading-relaxed text-foreground/90">
-                      &ldquo;{t.quote}&rdquo;
-                      <span className="not-italic font-semibold text-primary ml-2">
-                        &mdash; {t.author}
+                <blockquote className="text-base leading-relaxed text-foreground/90">
+                  &ldquo;{testimonial.quote}&rdquo;
+                </blockquote>
+
+                <div className="mt-5 border-t border-border/70 pt-4">
+                  <p className="font-semibold text-foreground">
+                    {testimonial.author}
+                  </p>
+                  <div className="mt-3 flex flex-wrap gap-2">
+                    {testimonial.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="rounded-full bg-primary/10 px-2.5 py-1 text-xs font-medium text-primary"
+                      >
+                        {tag}
                       </span>
-                    </blockquote>
+                    ))}
                   </div>
-                ))}
-            </div>
-          </motion.div>
+                </div>
+              </motion.article>
+            ))}
+          </div>
+
+          <div className="mt-6 text-center">
+            <Button
+              type="button"
+              variant="outline"
+              size="lg"
+              onClick={() => setShowAllTestimonials((current) => !current)}
+              aria-expanded={showAllTestimonials}
+            >
+              {showAllTestimonials
+                ? "Show fewer reviews"
+                : `Show all ${testimonials.length} reviews`}
+            </Button>
+          </div>
         </div>
       </section>
 
