@@ -35,39 +35,27 @@ const values = [
 const timeline = [
   {
     year: "1961",
-    title: "Founded",
+    title: "Our Doors Open",
     description:
-      "Mountain View Pharmacy opens its doors, serving the local community.",
+      "Mountain View Pharmacy opens its doors as a small, local pharmacy built on personal care. Staff knew patients by name, and that personal connection became the foundation everything else was built on.",
   },
   {
-    year: "1985",
-    title: "Compounding Lab",
+    year: "2016",
+    title: "New Ownership & Compounding",
     description:
-      "Expanded services to include custom compounding for patients with unique needs.",
-  },
-  {
-    year: "2005",
-    title: "Home Delivery",
-    description:
-      "Launched free home delivery service to improve medication access.",
-  },
-  {
-    year: "2015",
-    title: "Pill Packaging",
-    description:
-      "Introduced adherence packaging to help patients manage complex medication regimens.",
+      "New ownership steps in, bringing traditional compounding to the pharmacy and carrying that same commitment to community-focused care into the next chapter of our story.",
   },
   {
     year: "2020",
-    title: "Immunizations",
+    title: "Free Delivery",
     description:
-      "Expanded vaccination services to include COVID-19 and other immunizations.",
+      "When the COVID-19 pandemic changed how healthcare needed to be delivered, we responded by introducing free delivery, a service that has since become a cornerstone of how we care for patients near and far.",
   },
   {
-    year: "Today",
-    title: "Growing Strong",
+    year: "2023",
+    title: "Sterile Compounding & National Reach",
     description:
-      "Continuing our mission to provide personalized, expert pharmaceutical care.",
+      "As our community's needs evolved, so did we. We expand into sterile compounding. What follows is growth beyond what we imagined: from our local community, to statewide, to national reach. As we grow, we carry our founding values with us, working every day to keep that personal, patient-first care at the center of what we do.",
   },
 ];
 
@@ -76,7 +64,7 @@ export default function AboutClient() {
     <>
       <PageHero
         title="About Mountain View Pharmacy"
-        description="For over 60 years, we've been more than just a pharmacy. We're a trusted partner in our community's health and well-being."
+        description="Since 1961, Mountain View Pharmacy has been more than just a pharmacy. We've been a healthcare partner to our community, evolving into a leader in pharmaceutical compounding while staying true to our founding values of personal care and patient advocacy."
         breadcrumbs={[{ name: "About" }]}
         badge="Our Story"
       />
@@ -89,23 +77,15 @@ export default function AboutClient() {
               Caring for Our Community Since 1961
             </h2>
             <p className="mt-4 text-lg text-muted-foreground">
-              What started as a small neighborhood pharmacy has grown into a
-              trusted healthcare destination, but our core mission remains the
-              same: to provide personalized, compassionate pharmaceutical care
-              to every patient who walks through our doors.
+              Since 1961, Mountain View Pharmacy has been more than just a
+              pharmacy &mdash; we&apos;ve been a healthcare partner to our
+              community. What began as a small, local pharmacy has evolved into
+              a leader in pharmaceutical compounding, all while staying true to
+              our founding values of personal care and patient advocacy.
             </p>
             <p className="mt-4 text-muted-foreground">
-              Our team of dedicated pharmacists takes the time to know each
-              patient by name, understand their health needs, and provide
-              guidance that goes beyond simply filling prescriptions. We believe
-              that pharmacy care should be personal, accessible, and focused on
-              outcomes.
-            </p>
-            <p className="mt-4 text-muted-foreground">
-              Today, we offer a comprehensive range of services including custom
-              compounding, medication synchronization, pill packaging,
-              immunizations, and free home delivery, all designed to make
-              managing your health easier.
+              At the heart of it all is a simple purpose: delivering exceptional
+              care that leaves a lasting impression on every patient we serve.
             </p>
           </div>
           <div className="card-base overflow-hidden">
@@ -118,8 +98,8 @@ export default function AboutClient() {
             <div className="p-6 text-center">
               <h3 className="text-2xl font-bold">Your Neighborhood Pharmacy</h3>
               <p className="mt-3 text-muted-foreground">
-                Locally owned and operated, proudly serving Mountain View and
-                surrounding communities.
+                Locally owned and operated, proudly serving the Intermountain
+                West.
               </p>
             </div>
           </div>

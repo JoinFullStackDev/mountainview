@@ -6,13 +6,13 @@ export const metadata: Metadata = buildMetadata({
   path: "/services",
   title: "Pharmacy Services in Bountiful, UT",
   description:
-    "Explore Mountain View Pharmacy's healthcare services, including compounding, pill packaging, medication synchronization, immunizations, medication reviews, supplements, and workers' compensation support.",
+    "Explore Mountain View Pharmacy's healthcare services, including sterile and non-sterile compounding, pharmaceutical-grade supplements, and easy prescription transfers.",
   keywords: [
     "pharmacy services Bountiful",
     "compounding pharmacy Utah",
-    "medication synchronization",
-    "pill packaging",
-    "immunizations",
+    "sterile compounding",
+    "non-sterile compounding",
+    "supplements",
   ],
 });
 

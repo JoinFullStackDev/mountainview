@@ -3,9 +3,6 @@
 import {
   ArrowRightLeft,
   Truck,
-  ClipboardCheck,
-  Syringe,
-  RefreshCw,
 } from "lucide-react";
 import { PageHero } from "@/components/shared/PageHero";
 import { Section } from "@/components/shared/Section";
@@ -24,29 +21,8 @@ const patientServices = [
     icon: <Truck className="h-6 w-6" />,
     title: "Free Home Delivery",
     description:
-      "Get your medications delivered right to your door at no extra cost within our service area.",
+      "Get your medications delivered right to your door at no extra cost.",
     href: "/patients/delivery",
-  },
-  {
-    icon: <ClipboardCheck className="h-6 w-6" />,
-    title: "Pill Packaging",
-    description:
-      "Simplify your medication routine with customized pill packs organized by dose and time.",
-    href: "/patients/pill-packaging",
-  },
-  {
-    icon: <Syringe className="h-6 w-6" />,
-    title: "Immunizations",
-    description:
-      "Walk-in vaccinations for flu, COVID-19, shingles, and more. Administered by licensed pharmacists.",
-    href: "/patients/immunizations",
-  },
-  {
-    icon: <RefreshCw className="h-6 w-6" />,
-    title: "Medication Sync",
-    description:
-      "Synchronize all your prescriptions to refill on the same day each month for ultimate convenience.",
-    href: "/patients/med-sync",
   },
 ];
 
@@ -61,7 +37,7 @@ export default function PatientsClient() {
       />
 
       <Section variant="default" size="default">
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid md:grid-cols-2 gap-6 max-w-3xl mx-auto">
           {patientServices.map((service, index) => (
             <Card
               key={service.title}

@@ -29,13 +29,10 @@ const navigation = [
     href: '/services',
     megaMenu: true,
     children: [
-      // Left column - Services
-      { name: 'Compounding', href: '/services/compounding', column: 'left' },
-      { name: 'Pill Packaging', href: '/services/monthly-pill-packaging', column: 'left' },
-      { name: 'Medication Sync', href: '/services/medication-synchronization', column: 'left' },
-      { name: 'Immunizations', href: '/services/flu-shots-immunizations', column: 'left' },
-      { name: 'Medication Review', href: '/services/comprehensive-medication-review', column: 'left' },
+      { name: 'Sterile Compounding', href: '/services/compounding', column: 'left' },
+      { name: 'Non-Sterile Compounding', href: '/services/compounding', column: 'left' },
       { name: 'Supplements', href: '/services/pharmaceutical-grade-vitamins-supplements', column: 'left' },
+      { name: 'Transfer Your Rx', href: '/patients/transfer-prescriptions', column: 'left' },
     ],
   },
   {
@@ -44,9 +41,6 @@ const navigation = [
     children: [
       { name: 'Transfer Prescriptions', href: '/patients/transfer-prescriptions' },
       { name: 'Free Delivery', href: '/patients/delivery' },
-      { name: 'Pill Packaging', href: '/patients/pill-packaging' },
-      { name: 'Immunizations', href: '/patients/immunizations' },
-      { name: 'Medication Sync', href: '/patients/med-sync' },
     ],
   },
   {
@@ -55,7 +49,6 @@ const navigation = [
     children: [
       { name: 'About Us', href: '/about' },
       { name: 'Blog', href: '/blog' },
-      { name: 'Medical Kits', href: '/medical-kits' },
       { name: 'Contact', href: '/contact' },
     ],
   },

@@ -62,6 +62,53 @@ export const wpRedirects: WpRedirect[] = [
     permanent: true,
   },
 
+  // Retired service pages redirect to the services hub.
+  {
+    source: "/services/monthly-pill-packaging",
+    destination: "/services",
+    permanent: true,
+  },
+  {
+    source: "/services/medication-synchronization",
+    destination: "/services",
+    permanent: true,
+  },
+  {
+    source: "/services/flu-shots-immunizations",
+    destination: "/services",
+    permanent: true,
+  },
+  {
+    source: "/services/comprehensive-medication-review",
+    destination: "/services",
+    permanent: true,
+  },
+  {
+    source: "/services/workers-compensation",
+    destination: "/services",
+    permanent: true,
+  },
+
+  // Retired patient pages redirect to the patients hub.
+  {
+    source: "/patients/pill-packaging",
+    destination: "/patients",
+    permanent: true,
+  },
+  {
+    source: "/patients/immunizations",
+    destination: "/patients",
+    permanent: true,
+  },
+  {
+    source: "/patients/med-sync",
+    destination: "/patients",
+    permanent: true,
+  },
+
+  // Medical kits page removed; redirect to services.
+  { source: "/medical-kits", destination: "/services", permanent: true },
+
   // Legacy WordPress blog posts (root-level slugs) now live under /blog/.
   {
     source: "/continuing-the-wellness-journey-with-glp-1-support",

@@ -2,11 +2,9 @@
 
 import {
   FlaskConical,
-  ClipboardCheck,
-  RefreshCw,
-  Syringe,
-  FileSearch,
+  ShieldCheck,
   Leaf,
+  ArrowRightLeft,
 } from "lucide-react";
 import { PageHero } from "@/components/shared/PageHero";
 import { Section } from "@/components/shared/Section";
@@ -15,46 +13,32 @@ import { CTA } from "@/components/shared/CTA";
 
 const services = [
   {
-    icon: <FlaskConical className="h-6 w-6" />,
-    title: "Compounding",
+    icon: <ShieldCheck className="h-6 w-6" />,
+    title: "Sterile Compounding",
     description:
-      "Custom-formulated medications tailored to individual patient needs when commercial options are unsuitable.",
+      "Medications prepared in our controlled sterile environment for injections, infusions, and other sterile applications.",
     href: "/services/compounding",
   },
   {
-    icon: <ClipboardCheck className="h-6 w-6" />,
-    title: "Monthly Pill Packaging",
+    icon: <FlaskConical className="h-6 w-6" />,
+    title: "Non-Sterile Compounding",
     description:
-      "Medications organized into convenient daily packs sorted by time of day for easy adherence.",
-    href: "/services/monthly-pill-packaging",
-  },
-  {
-    icon: <RefreshCw className="h-6 w-6" />,
-    title: "Medication Synchronization",
-    description:
-      "Synchronize all your prescriptions to refill on the same day each month.",
-    href: "/services/medication-synchronization",
-  },
-  {
-    icon: <Syringe className="h-6 w-6" />,
-    title: "Flu Shots & Immunizations",
-    description:
-      "Walk-in vaccinations administered by licensed pharmacists for adults and children.",
-    href: "/services/flu-shots-immunizations",
-  },
-  {
-    icon: <FileSearch className="h-6 w-6" />,
-    title: "Comprehensive Medication Review",
-    description:
-      "Comprehensive medication therapy management to optimize your drug regimen.",
-    href: "/services/comprehensive-medication-review",
+      "Custom-formulated creams, capsules, gels, and other dosage forms tailored to individual patient needs.",
+    href: "/services/compounding",
   },
   {
     icon: <Leaf className="h-6 w-6" />,
-    title: "Vitamins & Supplements",
+    title: "Supplements",
     description:
       "Professional-grade vitamins, minerals, and supplements with pharmacist guidance.",
     href: "/services/pharmaceutical-grade-vitamins-supplements",
+  },
+  {
+    icon: <ArrowRightLeft className="h-6 w-6" />,
+    title: "Transfer Your Rx",
+    description:
+      "Easily transfer your existing prescriptions to Mountain View Pharmacy. We handle all the paperwork.",
+    href: "/patients/transfer-prescriptions",
   },
 ];
 
@@ -69,7 +53,7 @@ export default function ServicesClient() {
       />
 
       <Section variant="default" size="default">
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
           {services.map((service, index) => (
             <Card
               key={service.title}

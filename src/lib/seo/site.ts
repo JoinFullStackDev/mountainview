@@ -37,49 +37,13 @@ export const STATIC_ROUTES: StaticRoute[] = [
   // Service detail pages
   { path: "/services/compounding", changeFrequency: "monthly", priority: 0.8 },
   {
-    path: "/services/comprehensive-medication-review",
-    changeFrequency: "monthly",
-    priority: 0.8,
-  },
-  {
-    path: "/services/flu-shots-immunizations",
-    changeFrequency: "monthly",
-    priority: 0.8,
-  },
-  {
-    path: "/services/medication-synchronization",
-    changeFrequency: "monthly",
-    priority: 0.8,
-  },
-  {
-    path: "/services/monthly-pill-packaging",
-    changeFrequency: "monthly",
-    priority: 0.8,
-  },
-  {
     path: "/services/pharmaceutical-grade-vitamins-supplements",
-    changeFrequency: "monthly",
-    priority: 0.8,
-  },
-  {
-    path: "/services/workers-compensation",
     changeFrequency: "monthly",
     priority: 0.8,
   },
 
   // Patient detail pages
   { path: "/patients/delivery", changeFrequency: "monthly", priority: 0.8 },
-  {
-    path: "/patients/immunizations",
-    changeFrequency: "monthly",
-    priority: 0.8,
-  },
-  { path: "/patients/med-sync", changeFrequency: "monthly", priority: 0.8 },
-  {
-    path: "/patients/pill-packaging",
-    changeFrequency: "monthly",
-    priority: 0.8,
-  },
   {
     path: "/patients/transfer-prescriptions",
     changeFrequency: "monthly",
@@ -89,7 +53,6 @@ export const STATIC_ROUTES: StaticRoute[] = [
   // Marketing / info
   { path: "/about", changeFrequency: "monthly", priority: 0.7 },
   { path: "/contact", changeFrequency: "monthly", priority: 0.7 },
-  { path: "/medical-kits", changeFrequency: "monthly", priority: 0.7 },
 
   // Legal
   { path: "/privacy", changeFrequency: "yearly", priority: 0.3 },

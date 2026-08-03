@@ -7,7 +7,7 @@ export const metadata: Metadata = buildMetadata({
   title: "About Mountain View Pharmacy | Serving Bountiful Since 1961",
   titleAbsolute: true,
   description:
-    "Learn about Mountain View Pharmacy's history, local team, personalized care approach, pharmacy services, compounding, delivery, supplements, and community commitment.",
+    "Learn about Mountain View Pharmacy's history since 1961, our evolution into a leader in pharmaceutical compounding, and our commitment to personal care and patient advocacy across the Intermountain West.",
   keywords: [
     "about Mountain View Pharmacy",
     "Bountiful pharmacy since 1961",

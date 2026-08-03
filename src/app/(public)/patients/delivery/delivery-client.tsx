@@ -41,24 +41,19 @@ const helpItems = [
 
 const steps = [
   {
-    title: "Confirm Your Location",
+    title: "Confirm Your Address",
     description:
-      "We deliver within our service area. Contact us to confirm you're in our delivery zone.",
-  },
-  {
-    title: "Choose Your Delivery Window",
-    description:
-      "Pick a delivery time that works for your schedule. We offer flexible options.",
+      "Let us know your delivery address so we can get your medications to the right place.",
   },
   {
     title: "We Prepare & Deliver",
     description:
-      "Your medications are carefully packaged and delivered by our trusted team.",
+      "Your medications are carefully packaged and shipped to you quickly and securely.",
   },
   {
-    title: "Ongoing Monthly Deliveries",
+    title: "Call Us With Any Questions",
     description:
-      "Set up recurring deliveries so you never have to think about refills again.",
+      "Our pharmacy team is always available to help. Call us anytime with questions about your order.",
   },
 ];
 
@@ -103,17 +98,12 @@ const faqs = [
   {
     question: "What areas do you deliver to?",
     answer:
-      "We deliver within Bountiful, Centerville, North Salt Lake, Woods Cross, and surrounding Davis County communities. Contact us to confirm your address is in our delivery area.",
+      "We offer free delivery to all states where we are licensed, including Utah, Arizona, Idaho, Wyoming, Nevada, Montana, Ohio, Wisconsin, and more! Call us to see if your state is covered.",
   },
   {
-    question: "When are deliveries made?",
+    question: "What carrier do you use for delivery?",
     answer:
-      "We typically deliver Monday through Friday. You can request morning or afternoon delivery windows, and we do our best to accommodate your schedule.",
-  },
-  {
-    question: "Does someone need to be home to receive the delivery?",
-    answer:
-      "For most medications, we can leave them in a secure location you designate. Controlled substances and certain medications require a signature.",
+      "We use a mix of UPS, FedEx, and PigeonShip to ensure your medications arrive quickly and safely.",
   },
   {
     question: "Can you deliver medications that need refrigeration?",
@@ -126,9 +116,9 @@ const faqs = [
       "Yes! We're happy to include OTC medications, vitamins, and other pharmacy items with your delivery.",
   },
   {
-    question: "How do I set up recurring deliveries?",
+    question: "When can I expect my delivery?",
     answer:
-      "Just let us know you want automatic monthly deliveries. We'll sync your prescriptions and set up a consistent delivery schedule.",
+      "Most packages will be received within 1-2 business days of your order being placed.",
   },
 ];
 

@@ -8,13 +8,9 @@ const footerLinks = {
   patients: [
     { name: 'Transfer Prescriptions', href: '/patients/transfer-prescriptions' },
     { name: 'Free Delivery', href: '/patients/delivery' },
-    { name: 'Pill Packaging', href: '/patients/pill-packaging' },
-    { name: 'Immunizations', href: '/patients/immunizations' },
-    { name: 'Medication Sync', href: '/patients/med-sync' },
   ],
   company: [
     { name: 'About Us', href: '/about' },
-    { name: 'Medical Kits', href: '/medical-kits' },
     { name: 'Blog', href: '/blog' },
     { name: 'Contact', href: '/contact' },
     { name: 'Privacy & HIPAA', href: '/privacy' },

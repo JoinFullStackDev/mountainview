@@ -10,7 +10,6 @@ import {
   Dog,
   Sparkles,
   Scale,
-  Leaf,
   Activity,
   Pill,
   TestTube,
@@ -80,11 +79,6 @@ const specialtyAreas = [
     icon: Scale,
     title: "Weight Loss",
     description: "Personalized weight management medications.",
-  },
-  {
-    icon: Leaf,
-    title: "Thyroid",
-    description: "Customized thyroid hormone formulations.",
   },
 ];
 

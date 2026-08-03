@@ -6,7 +6,7 @@ export const metadata: Metadata = buildMetadata({
   path: "/patients",
   title: "Patient Services in Bountiful, UT",
   description:
-    "Explore Mountain View Pharmacy's services for patients: prescription transfers, free home delivery, pill packaging, immunizations, and medication synchronization.",
+    "Explore Mountain View Pharmacy's patient services: prescription transfers and free home delivery.",
   keywords: [
     "patient services Bountiful",
     "pharmacy patient resources Utah",

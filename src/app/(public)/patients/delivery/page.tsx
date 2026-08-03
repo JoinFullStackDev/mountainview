@@ -4,12 +4,12 @@ import DeliveryClient from "./delivery-client";
 
 export const metadata: Metadata = buildMetadata({
   path: "/patients/delivery",
-  title: "Free Prescription Delivery in Bountiful, UT",
+  title: "Free Prescription Delivery",
   description:
-    "Get prescriptions delivered to your door at no extra cost. Mountain View Pharmacy offers fast, secure home delivery throughout the Bountiful, Utah service area.",
+    "Get prescriptions delivered to your door at no extra cost. Mountain View Pharmacy offers fast, secure delivery to all licensed states via UPS, FedEx, and PigeonShip.",
   keywords: [
-    "free prescription delivery Bountiful",
-    "pharmacy delivery Utah",
+    "free prescription delivery",
+    "pharmacy delivery nationwide",
     "home medication delivery",
     "Mountain View Pharmacy delivery",
   ],

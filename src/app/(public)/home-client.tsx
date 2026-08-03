@@ -13,9 +13,6 @@ import {
   Car,
   Truck,
   Pill,
-  Syringe,
-  RefreshCw,
-  ClipboardCheck,
   Shield,
   ArrowRight,
   Phone,
@@ -49,31 +46,11 @@ const quickServices = [
     description: "Personalized medications tailored to your specific needs.",
     href: "/services/compounding",
   },
-  {
-    icon: <ClipboardCheck className="h-6 w-6" />,
-    title: "Pill Packaging",
-    description: "Organize your medications by dose and time for easy adherence.",
-    href: "/patients/pill-packaging",
-  },
-  {
-    icon: <Syringe className="h-6 w-6" />,
-    title: "Immunizations",
-    description: "Walk-in vaccinations administered by licensed pharmacists.",
-    href: "/patients/immunizations",
-  },
-  {
-    icon: <RefreshCw className="h-6 w-6" />,
-    title: "Medication Sync",
-    description: "Synchronize all your refills to one convenient pickup day.",
-    href: "/patients/med-sync",
-  },
 ];
 
 const patientLinks = [
   { label: "Transfer Prescriptions", href: "/patients/transfer-prescriptions" },
   { label: "Free Home Delivery", href: "/patients/delivery" },
-  { label: "Pill Packaging", href: "/patients/pill-packaging" },
-  { label: "Immunizations", href: "/patients/immunizations" },
 ];
 
 const stats = [
@@ -273,9 +250,9 @@ const faqItems = [
       "Yes! We offer free home delivery within our service area. Your medications are carefully packaged and delivered right to your door. You can schedule deliveries at your convenience or set up automatic refill deliveries.",
   },
   {
-    question: "What immunizations do you provide?",
+    question: "What services do you offer?",
     answer:
-      "We offer a wide range of immunizations including flu shots, COVID-19 vaccines, shingles, pneumonia, Tdap, and more. Our pharmacists are licensed to administer vaccines to adults and children. No appointment needed for most vaccines.",
+      "We offer custom compounding (sterile and non-sterile), pharmaceutical-grade vitamins and supplements, free home delivery, prescription transfers, and more. Our pharmacists are always available to answer your questions.",
   },
 ];
 
@@ -560,9 +537,8 @@ export default function HomeClient() {
             <div className="relative p-8 md:p-10 lg:p-12 flex flex-col justify-center">
               <h3 className="text-2xl md:text-3xl font-bold">For Patients</h3>
               <p className="mt-3 text-muted-foreground">
-                Whether you need prescription transfers, medication delivery, or
-                personalized pill packaging, we make managing your health simple
-                and convenient.
+                Whether you need prescription transfers or medication delivery,
+                we make managing your health simple and convenient.
               </p>
               <ul className="mt-6 space-y-3">
                 {patientLinks.map((item, i) => (

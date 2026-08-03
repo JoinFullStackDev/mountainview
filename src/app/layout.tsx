@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     template: "%s | Mountain View Pharmacy",
   },
   description:
-    "Your trusted community pharmacy in Bountiful, Utah. Custom compounding, free delivery, pill packaging, immunizations, and personalized care.",
+    "Your trusted community pharmacy in Bountiful, Utah. Custom compounding, free delivery, supplements, and personalized care.",
   metadataBase: new URL(SITE_URL),
   openGraph: {
     type: "website",
