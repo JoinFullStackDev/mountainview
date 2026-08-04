@@ -432,44 +432,6 @@ export default function HomeClient() {
               src="/images/hero-video.mp4"
               poster="/images/hero-video-poster.jpg"
             />
-
-
-            {/* Floating badges */}
-            <motion.div
-              className="hidden md:flex absolute -top-4 -right-4 bg-card rounded-xl px-4 py-3 shadow-lg border border-border items-center gap-2"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1 }}
-              whileHover={{ scale: 1.05 }}
-            >
-              <div className="h-8 w-8 rounded-full bg-success/10 flex items-center justify-center">
-                <Shield className="h-4 w-4 text-success" />
-              </div>
-              <div className="text-sm text-left">
-                <p className="font-semibold">HIPAA Compliant</p>
-                <p className="text-muted-foreground text-xs">
-                  Secure & Private
-                </p>
-              </div>
-            </motion.div>
-
-            <motion.div
-              className="hidden md:flex absolute -bottom-4 -left-4 bg-card rounded-xl px-4 py-3 shadow-lg border border-border items-center gap-2"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1.1 }}
-              whileHover={{ scale: 1.05 }}
-            >
-              <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center">
-                <Truck className="h-4 w-4 text-primary" />
-              </div>
-              <div className="text-sm text-left">
-                <p className="font-semibold">Free Delivery</p>
-                <p className="text-muted-foreground text-xs">
-                  Same-day available
-                </p>
-              </div>
-            </motion.div>
           </motion.div>
         </div>
       </section>

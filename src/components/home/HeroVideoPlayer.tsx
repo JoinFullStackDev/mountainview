@@ -101,6 +101,16 @@ export function HeroVideoPlayer({
         )}
       />
 
+      {/* Keep the whole frame clickable, but put the visible control off the face */}
+      {!isPlaying && (
+        <button
+          type="button"
+          aria-label="Play video"
+          onClick={togglePlay}
+          className="absolute inset-0 z-10 cursor-pointer focus:outline-none"
+        />
+      )}
+
       <AnimatePresence>
         {!isPlaying && (
           <motion.button
@@ -108,16 +118,19 @@ export function HeroVideoPlayer({
             type="button"
             aria-label="Play video"
             onClick={togglePlay}
-            initial={{ opacity: 0, scale: 0.85 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.85 }}
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 8 }}
             transition={{ duration: 0.2, ease: "easeOut" }}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="absolute inset-0 flex items-center justify-center focus:outline-none"
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.97 }}
+            className="absolute bottom-4 left-4 z-20 flex items-center gap-2.5 rounded-full bg-primary px-4 py-2.5 text-primary-foreground shadow-lg ring-2 ring-white/25 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/70 md:bottom-5 md:left-5 md:px-5 md:py-3"
           >
-            <span className="flex h-20 w-20 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-2xl ring-4 ring-white/30 transition md:h-24 md:w-24">
-              <Play className="h-8 w-8 translate-x-0.5 fill-current md:h-10 md:w-10" />
+            <span className="flex h-8 w-8 items-center justify-center rounded-full bg-white/15 md:h-9 md:w-9">
+              <Play className="h-4 w-4 translate-x-0.5 fill-current md:h-5 md:w-5" />
+            </span>
+            <span className="pr-1 text-sm font-semibold tracking-tight md:text-base">
+              Watch our story
             </span>
           </motion.button>
         )}
@@ -128,16 +141,19 @@ export function HeroVideoPlayer({
             type="button"
             aria-label="Pause video"
             onClick={togglePlay}
-            initial={{ opacity: 0, scale: 0.85 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.85 }}
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 8 }}
             transition={{ duration: 0.2, ease: "easeOut" }}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="absolute inset-0 flex items-center justify-center focus:outline-none"
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.97 }}
+            className="absolute bottom-4 left-4 z-20 flex items-center gap-2.5 rounded-full bg-black/65 px-4 py-2.5 text-white shadow-lg backdrop-blur-md ring-2 ring-white/15 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/70 md:bottom-5 md:left-5 md:px-5 md:py-3"
           >
-            <span className="flex h-20 w-20 items-center justify-center rounded-full bg-black/60 text-white shadow-2xl ring-4 ring-white/20 backdrop-blur-md md:h-24 md:w-24">
-              <Pause className="h-8 w-8 fill-current md:h-10 md:w-10" />
+            <span className="flex h-8 w-8 items-center justify-center rounded-full bg-white/15 md:h-9 md:w-9">
+              <Pause className="h-4 w-4 fill-current md:h-5 md:w-5" />
+            </span>
+            <span className="pr-1 text-sm font-semibold tracking-tight md:text-base">
+              Pause
             </span>
           </motion.button>
         )}
