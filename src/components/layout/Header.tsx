@@ -29,8 +29,7 @@ const navigation = [
     href: '/services',
     megaMenu: true,
     children: [
-      { name: 'Sterile Compounding', href: '/services/compounding', column: 'left' },
-      { name: 'Non-Sterile Compounding', href: '/services/compounding', column: 'left' },
+      { name: 'Compounding', href: '/services/compounding', column: 'left' },
       { name: 'Supplements', href: '/services/pharmaceutical-grade-vitamins-supplements', column: 'left' },
       { name: 'Transfer Your Rx', href: '/patients/transfer-prescriptions', column: 'left' },
     ],
